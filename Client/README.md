@@ -1,0 +1,1 @@
+Partie en JAVA communique avec le seveiur C# avec SOAP
