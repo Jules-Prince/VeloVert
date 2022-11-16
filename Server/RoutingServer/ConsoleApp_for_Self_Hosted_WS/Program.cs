@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 // add the WCF ServiceModel namespace 
 using System.ServiceModel;
 using System.ServiceModel.Description;
+using System.Net.Http;
+using System.IO;
 
 namespace MyRoutingServer
 {
@@ -43,8 +45,54 @@ namespace MyRoutingServer
 
             Console.WriteLine("Service is host at " + DateTime.Now.ToString());
             Console.WriteLine("Host is running... Press <Enter> key to stop");
+
+            // Exemple : https://nominatim.openstreetmap.org/search/Unter%20den%20Linden%201%20Berlin?format=json&addressdetails=1&limit=1&polygon_svg=1
+            string url = "https://nominatim.openstreetmap.org/search/";
+
+            string adress = "57 avenue de la gare Cagnes sur mer France";
+
+
+
+            string result = OSMAPICall(url+formatUrl(adress)+ "?format=json&addressdetails=1&limit=1&polygon_svg=1").Result;
+            Console.WriteLine(result);
+
+
             Console.ReadLine();
 
+        }
+
+        static public string formatUrl(string adress)
+        {
+            string url = "";
+            foreach(char c in adress) {
+                if (c == ' ')
+                {
+                    url = url + "%";
+                    url = url + "2";
+                    url = url + "0";
+                }
+                else
+                {
+                    url = url + c;
+                }
+            }
+            Console.WriteLine(url);
+            Console.ReadLine();
+            return url;
+        }
+
+        static async Task<string> OSMAPICall(string url)
+        {
+            Console.WriteLine(url);
+            Console.ReadLine() ;
+
+            // DOC : https://nominatim.org/release-docs/latest/api/Search/
+            // DOC : https://www.smalsresearch.be/geocodage-contourner-les-lacunes-dopenstreetmap-partie-1/
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadAsStringAsync();
         }
     }
 }
