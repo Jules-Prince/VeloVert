@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 // add assembly System.ServiceModel  and using for the corresponding model
 using System.ServiceModel;
 
-namespace ConsoleApp_for_Self_Hosted_WS
+namespace MyRoutingServer
 {
 
     [ServiceContract()]

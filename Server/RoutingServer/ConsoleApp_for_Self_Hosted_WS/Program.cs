@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 
-namespace ConsoleApp_for_Self_Hosted_WS
+namespace MyRoutingServer
 {
     class Program
     {
@@ -31,13 +31,13 @@ namespace ConsoleApp_for_Self_Hosted_WS
             // ServiceHost host = new ServiceHost(typeof(MyCalculatorService.SimpleCalculator), httpUrl, tcpUrl);
 
             //Add a service endpoint
-            host.AddServiceEndpoint(typeof(ISimpleCalculator), new WSHttpBinding(), "");
+            host.AddServiceEndpoint(typeof(ISimpleCalculator), new WSHttpBinding(), ""); 
 
             //Enable metadata exchange
             ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
             smb.HttpGetEnabled = true;
             host.Description.Behaviors.Add(smb);
-
+            
             //Start the Service
             host.Open();
 
