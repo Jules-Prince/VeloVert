@@ -10,6 +10,8 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Net.Http;
 using System.IO;
+using static System.Net.WebRequestMethods;
+using System.Text.Json;
 
 namespace MyRoutingServer
 {
@@ -47,18 +49,28 @@ namespace MyRoutingServer
             Console.WriteLine("Host is running... Press <Enter> key to stop");
 
             // Exemple : https://nominatim.openstreetmap.org/search/Unter%20den%20Linden%201%20Berlin?format=json&addressdetails=1&limit=1&polygon_svg=1
-            string url = "https://nominatim.openstreetmap.org/search/";
+            //string url = "https://nominatim.openstreetmap.org/search/";
+            //https://nominatim.openstreetmap.org/search?q=%2257%20Avenue%20de%20la%20gare%2006800%20Cagnes%20sur%20mer%22
 
-            string adress = "57 avenue de la gare Cagnes sur mer France";
+            string url = "https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf624857ddfd522faa498cb4d1d74518230dff&text=";
+            
+            string adress = "57 avenue de la gare Cagnes sur mer";
+            string result1 = OSMAPICall(url + formatUrl(adress)).Result;
 
+            adress = "930 Rte des Colles, 06410 Biot";
+            string result2 = OSMAPICall(url + formatUrl(adress)).Result;
 
-
-            string result = OSMAPICall(url+formatUrl(adress)+ "?format=json&addressdetails=1&limit=1&polygon_svg=1").Result;
-            Console.WriteLine(result);
-
-
+            Console.WriteLine("My result" + result1);
             Console.ReadLine();
 
+            //Test feature = JsonSerializer.Deserialize<Test>(result1);
+            //Console.WriteLine("my feature : " + feature.ToString());
+
+            Console.WriteLine("My result" + result2);
+            Console.ReadLine();
+
+
+            
         }
 
         static public string formatUrl(string adress)
@@ -91,8 +103,22 @@ namespace MyRoutingServer
             HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync(url);
             response.EnsureSuccessStatusCode();
-
             return await response.Content.ReadAsStringAsync();
         }
+    }
+
+    public class MyClass
+    {
+        string features { get; set; }
+    }
+
+    public class Test
+    {
+        Geocoding geocoding { get; set; }
+    }
+
+    public class Geocoding
+    {
+        string version { get; set; }
     }
 }
