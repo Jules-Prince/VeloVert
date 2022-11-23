@@ -47,6 +47,8 @@ namespace ConsoleApp_for_Self_Hosted_WS
         private RootJCDecauxDataAPI findStationMoreClosed(List<RootJCDecauxDataAPI> root, OSMCoordinate osmC)
         {
             RootJCDecauxDataAPI myStation = null;
+            double distance = 99999999999;
+            double res;
 
             foreach (RootJCDecauxDataAPI rootJC in root)
             {
@@ -56,8 +58,10 @@ namespace ConsoleApp_for_Self_Hosted_WS
                 }
                 else
                 {
-                    if (isSmaller(myStation, rootJC, osmC))
+                    res = distancePythagore(rootJC, osmC);
+                    if(res < distance)
                     {
+                        distance = res;
                         myStation = rootJC;
                     }
                 }
@@ -65,17 +69,13 @@ namespace ConsoleApp_for_Self_Hosted_WS
             return myStation;
         }
 
-        private Boolean isSmaller(RootJCDecauxDataAPI myStation, RootJCDecauxDataAPI rootJC, OSMCoordinate osmC)
+        private double distancePythagore(RootJCDecauxDataAPI rootJC, OSMCoordinate osmC)
         {
-            if (Math.Abs(osmC.latitude) - Math.Abs(rootJC.position.latitude) > Math.Abs(osmC.latitude) - Math.Abs(myStation.position.latitude))
-            {
-                return true;
-            }
-            if (Math.Abs(osmC.longitude) - Math.Abs(rootJC.position.longitude) > Math.Abs(osmC.longitude) - Math.Abs(myStation.position.longitude))
-            {
-                return true;
-            }
-            return false;
+            // Pythagore 
+            double x = Math.Abs(osmC.longitude - rootJC.position.longitude);
+            double y = Math.Abs(osmC.latitude - rootJC.position.latitude);
+            double d = Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2));
+            return d;
         }
 
         private List<RootJCDecauxDataAPI> buildDeserializedClass(string urlAPI, string param)
