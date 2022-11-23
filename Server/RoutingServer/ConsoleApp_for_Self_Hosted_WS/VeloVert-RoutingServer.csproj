@@ -89,6 +89,7 @@
     <Compile Include="OSMDataAPI.cs" />
     <Compile Include="IMyCalculatorService.cs" />
     <Compile Include="MyCalculatorService.cs" />
+    <Compile Include="ProcessOfObtainingTheSteps.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
