@@ -12,6 +12,9 @@ using System.Net.Http;
 using System.IO;
 using static System.Net.WebRequestMethods;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+using ConsoleApp_for_Self_Hosted_WS;
 
 namespace MyRoutingServer
 {
@@ -48,77 +51,17 @@ namespace MyRoutingServer
             Console.WriteLine("Service is host at " + DateTime.Now.ToString());
             Console.WriteLine("Host is running... Press <Enter> key to stop");
 
-            // Exemple : https://nominatim.openstreetmap.org/search/Unter%20den%20Linden%201%20Berlin?format=json&addressdetails=1&limit=1&polygon_svg=1
-            //string url = "https://nominatim.openstreetmap.org/search/";
-            //https://nominatim.openstreetmap.org/search?q=%2257%20Avenue%20de%20la%20gare%2006800%20Cagnes%20sur%20mer%22
 
-            string url = "https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf624857ddfd522faa498cb4d1d74518230dff&text=";
-            
-            string adress = "57 avenue de la gare Cagnes sur mer";
-            string result1 = OSMAPICall(url + formatUrl(adress)).Result;
+            // *************************************
+            //              REST 
+            // *************************************
 
-            adress = "930 Rte des Colles, 06410 Biot";
-            string result2 = OSMAPICall(url + formatUrl(adress)).Result;
+            string adressA = "57 avenue de la gare Cagnes sur mer";
+            string adressB = "930 Rte des Colles, 06410 Biot";
 
-            Console.WriteLine("My result" + result1);
-            Console.ReadLine();
-
-            //Test feature = JsonSerializer.Deserialize<Test>(result1);
-            //Console.WriteLine("my feature : " + feature.ToString());
-
-            Console.WriteLine("My result" + result2);
-            Console.ReadLine();
-
-
-            
+            OSMProcess osmProcess = new OSMProcess();
+            osmProcess.run(adressA, adressB);
+            osmProcess.printOSMCoordiante();
         }
-
-        static public string formatUrl(string adress)
-        {
-            string url = "";
-            foreach(char c in adress) {
-                if (c == ' ')
-                {
-                    url = url + "%";
-                    url = url + "2";
-                    url = url + "0";
-                }
-                else
-                {
-                    url = url + c;
-                }
-            }
-            Console.WriteLine(url);
-            Console.ReadLine();
-            return url;
-        }
-
-        static async Task<string> OSMAPICall(string url)
-        {
-            Console.WriteLine(url);
-            Console.ReadLine() ;
-
-            // DOC : https://nominatim.org/release-docs/latest/api/Search/
-            // DOC : https://www.smalsresearch.be/geocodage-contourner-les-lacunes-dopenstreetmap-partie-1/
-            HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync(url);
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsStringAsync();
-        }
-    }
-
-    public class MyClass
-    {
-        string features { get; set; }
-    }
-
-    public class Test
-    {
-        Geocoding geocoding { get; set; }
-    }
-
-    public class Geocoding
-    {
-        string version { get; set; }
     }
 }
