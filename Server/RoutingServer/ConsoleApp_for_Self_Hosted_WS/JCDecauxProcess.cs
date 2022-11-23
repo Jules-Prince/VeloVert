@@ -10,13 +10,14 @@ namespace ConsoleApp_for_Self_Hosted_WS
 {
     internal class JCDecauxProcess
     {
-        public JCDevauxCoordinate jCDevauxCoordinateA { set; get; }
-        public JCDevauxCoordinate jCDevauxCoordinateB { set; get; }
+
+        public Position positionA { set; get; }
+        public Position positionB { set; get; }
 
         public JCDecauxProcess()
         {
-            this.jCDevauxCoordinateA = new JCDevauxCoordinate();
-            this.jCDevauxCoordinateB = new JCDevauxCoordinate();
+            this.positionA = new Position();
+            this.positionB = new Position();
         }
 
         public void run(OSMCoordinate oA, OSMCoordinate oB)
@@ -36,10 +37,11 @@ namespace ConsoleApp_for_Self_Hosted_WS
 
 
             // 3 J'enregistre les coordonnées dans la classe adéquate.
-            this.jCDevauxCoordinateA.latitude = rootJCDecauxDataA.position.latitude;
-            this.jCDevauxCoordinateA.longitude = rootJCDecauxDataA.position.longitude;
-            this.jCDevauxCoordinateB.latitude = rootJCDecauxDataB.position.latitude;
-            this.jCDevauxCoordinateB.longitude = rootJCDecauxDataB.position.longitude;
+            this.positionA.latitude = rootJCDecauxDataA.position.latitude;
+            this.positionA.longitude = rootJCDecauxDataA.position.longitude;
+
+            this.positionB.latitude = rootJCDecauxDataB.position.latitude;
+            this.positionB.longitude = rootJCDecauxDataB.position.longitude;
         }
 
         private RootJCDecauxDataAPI findStationMoreClosed(List<RootJCDecauxDataAPI> root, OSMCoordinate osmC)
@@ -78,7 +80,6 @@ namespace ConsoleApp_for_Self_Hosted_WS
 
         private List<RootJCDecauxDataAPI> buildDeserializedClass(string urlAPI, string param)
         {
-            param = "Lyon";
             APIManager aPIManager = new APIManager();
             string result = aPIManager.APICall(aPIManager.formatUrl(urlAPI), param).Result;
             return JsonConvert.DeserializeObject<List<RootJCDecauxDataAPI>>(result);
@@ -101,12 +102,12 @@ namespace ConsoleApp_for_Self_Hosted_WS
         public void printJCDevauxCoordinate()
         {
             Console.WriteLine("JCDevaux Coordinate A");
-            Console.WriteLine("Longitude : " + this.jCDevauxCoordinateA.longitude);
-            Console.WriteLine("Latitude : " + this.jCDevauxCoordinateA.latitude);
+            Console.WriteLine("Longitude : " + this.positionA.longitude);
+            Console.WriteLine("Latitude : " + this.positionA.latitude);
 
             Console.WriteLine("JCDevaux Coordinate B");
-            Console.WriteLine("Longitude : " + this.jCDevauxCoordinateB.longitude);
-            Console.WriteLine("Latitude : " + this.jCDevauxCoordinateB.latitude);
+            Console.WriteLine("Longitude : " + this.positionB.longitude);
+            Console.WriteLine("Latitude : " + this.positionB.latitude);
         }
     }
 }

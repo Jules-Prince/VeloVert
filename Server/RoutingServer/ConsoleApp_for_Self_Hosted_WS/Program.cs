@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-
 // add the WCF ServiceModel namespace 
 using System.ServiceModel;
 using System.ServiceModel.Description;
@@ -56,8 +54,8 @@ namespace MyRoutingServer
             //              REST 
             // *************************************
 
-            string adressA = "57 avenue de la gare Cagnes sur mer";
-            string adressB = "930 Rte des Colles, 06410 Biot";
+            string adressA = "33 Rue Edouard Nieuport, 69008 Lyon";
+            string adressB = "4 Pl. du Marché, 69009 Lyon";
 
             /**
              * 1. Calls OpenStreetMap to retrieve information about the
@@ -86,7 +84,8 @@ namespace MyRoutingServer
              */
 
             //https://api.openrouteservice.org/v2/directions/driving-car?api_key=your-api-key&start=8.681495,49.41461&end=8.687872,49.420318
-
+            DirectionProcess directionProcess = new DirectionProcess();
+            directionProcess.run(osmProcess.positionA, jCDecauxProcess.positionA, jCDecauxProcess.positionB, osmProcess.positionB);
 
             Console.ReadLine();
         }

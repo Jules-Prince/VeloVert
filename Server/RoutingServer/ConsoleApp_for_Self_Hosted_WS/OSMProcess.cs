@@ -13,10 +13,15 @@ namespace ConsoleApp_for_Self_Hosted_WS
         public OSMCoordinate OSMCoordinateA { get; set; }
         public OSMCoordinate OSMCoordinateB { get; set; }
 
+        public Position positionA { get; set; }
+        public Position positionB { get; set; }
+
         public OSMProcess()
         {
             OSMCoordinateA = new OSMCoordinate();
             OSMCoordinateB = new OSMCoordinate();
+            positionA = new Position();
+            positionB = new Position();
         }
 
         public void run(string adressA, string adressB)
@@ -28,13 +33,17 @@ namespace ConsoleApp_for_Self_Hosted_WS
 
             // Coordinate A
             OSMCoordinateA.city = rootA.features[0].properties.locality;
-            OSMCoordinateA.latitude = rootA.features[0].geometry.coordinates[0];
-            OSMCoordinateA.longitude = rootA.features[0].geometry.coordinates[1];
+            OSMCoordinateA.longitude = rootA.features[0].geometry.coordinates[0];
+            OSMCoordinateA.latitude = rootA.features[0].geometry.coordinates[1];
+            positionA.longitude = OSMCoordinateA.longitude;
+            positionA.latitude = OSMCoordinateA.latitude;
 
             // Coordiante B
             OSMCoordinateB.city = rootB.features[0].properties.locality;
-            OSMCoordinateB.latitude = rootB.features[0].geometry.coordinates[0];
-            OSMCoordinateB.longitude = rootB.features[0].geometry.coordinates[1];
+            OSMCoordinateB.longitude = rootB.features[0].geometry.coordinates[0];
+            OSMCoordinateB.latitude = rootB.features[0].geometry.coordinates[1];
+            positionB.longitude = OSMCoordinateB.longitude;
+            positionB.latitude = OSMCoordinateB.latitude;
         }
 
         private Root buildDeserializedClass(string urlAPI, string param)

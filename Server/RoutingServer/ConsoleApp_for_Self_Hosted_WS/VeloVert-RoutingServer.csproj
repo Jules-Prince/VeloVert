@@ -79,6 +79,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIManager.cs" />
+    <Compile Include="DirectionDataApi.cs" />
+    <Compile Include="DirectionProcess.cs" />
     <Compile Include="JCDevauxCoordinate.cs" />
     <Compile Include="JCDecauxDataAPI.cs" />
     <Compile Include="JCDecauxProcess.cs" />

@@ -30,11 +30,29 @@ namespace ConsoleApp_for_Self_Hosted_WS
             return url;
         }
 
+        public string correctPostionFormat(double val)
+        {
+            string s = "" + val;
+            string result = "";
+
+            foreach(char c in s)
+            {
+                if(c == ',')
+                {
+                    result = result + ".";
+                }
+                else
+                {
+                    result = result + c;
+                }
+            }
+
+            return result;
+        }
+
         public async Task<string> APICall(string urlAPI, string param)
         {
             string url = urlAPI + param;
-            Console.WriteLine("Contract : " + url);
-            Console.ReadLine();
             HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync(url);
             response.EnsureSuccessStatusCode();
