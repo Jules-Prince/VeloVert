@@ -7,22 +7,26 @@ using System.Threading.Tasks;
 namespace MyRoutingServer
 {
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
-    public class Feature
-    {
-        public string type { get; set; }
-        public Geometry geometry { get; set; }
-        public List<double> bbox { get; set; }
-    }
-
-    public class Geometry
-    {
-        public string type { get; set; }
-        public List<double> coordinates { get; set; }
-    }
-
+    // https://json2csharp.com/
     public class Root
     {
         public List<Feature> features { get; set; }
     }
 
+    public class Feature
+    {
+        public Geometry geometry { get; set; }
+        public Properties properties { get; set; }
+    }
+
+    public class Geometry
+    {
+        public List<double> coordinates { get; set; }
+    }
+
+
+    public class Properties
+    {
+        public string locality { get; set; }
+    }
 }

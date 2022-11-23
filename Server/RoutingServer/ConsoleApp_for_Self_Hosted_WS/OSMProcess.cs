@@ -21,22 +21,26 @@ namespace ConsoleApp_for_Self_Hosted_WS
 
         public void run(string adressA, string adressB)
         {
-            Root rootA = buildDeserializedClass(adressA);
-            Root rootB = buildDeserializedClass(adressB);
+            string urlAPI = "https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf624857ddfd522faa498cb4d1d74518230dff&text=";
+
+            Root rootA = buildDeserializedClass(urlAPI, adressA);
+            Root rootB = buildDeserializedClass(urlAPI, adressB);
 
             // Coordinate A
+            OSMCoordinateA.city = rootA.features[0].properties.locality;
             OSMCoordinateA.latitude = rootA.features[0].geometry.coordinates[0];
             OSMCoordinateA.longitude = rootA.features[0].geometry.coordinates[1];
 
             // Coordiante B
+            OSMCoordinateB.city = rootB.features[0].properties.locality;
             OSMCoordinateB.latitude = rootB.features[0].geometry.coordinates[0];
             OSMCoordinateB.longitude = rootB.features[0].geometry.coordinates[1];
         }
 
-        private Root buildDeserializedClass(string adress)
+        private Root buildDeserializedClass(string urlAPI, string param)
         {
-            OSMModel osm = new OSMModel();
-            string result = osm.OSMAPICall(osm.formatUrl(adress)).Result;
+            APIManager aPIManager = new APIManager();
+            string result = aPIManager.APICall(aPIManager.formatUrl(urlAPI), param).Result;
             return JsonConvert.DeserializeObject<Root>(result);
         }
 
@@ -44,8 +48,10 @@ namespace ConsoleApp_for_Self_Hosted_WS
         {
             Console.WriteLine("A longitude : " + OSMCoordinateA.longitude);
             Console.WriteLine("A latitude : " + OSMCoordinateA.latitude);
+            Console.WriteLine("A city : " + OSMCoordinateA.city);
             Console.WriteLine("B longitude : " + OSMCoordinateB.longitude);
             Console.WriteLine("B latitude : " + OSMCoordinateB.latitude);
+            Console.WriteLine("B city : " + OSMCoordinateB.city);
             Console.ReadLine();
         }
     }

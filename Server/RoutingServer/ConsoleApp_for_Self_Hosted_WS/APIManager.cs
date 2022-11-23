@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MyRoutingServer;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -7,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp_for_Self_Hosted_WS
 {
-    internal class OSMModel
-    {
+    internal class APIManager
+    { 
         public string formatUrl(string adress)
         {
             string url = "";
@@ -28,16 +30,15 @@ namespace ConsoleApp_for_Self_Hosted_WS
             return url;
         }
 
-         public async Task<string> OSMAPICall(string request)
-         {
-            // API : https://openrouteservice.org/
-            string urlAPI = "https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf624857ddfd522faa498cb4d1d74518230dff&text=";
-            request = urlAPI + request;
-            //Console.WriteLine(request);
+        public async Task<string> APICall(string urlAPI, string param)
+        {
+            string url = urlAPI + param;
+            Console.WriteLine("Contract : " + url);
+            Console.ReadLine();
             HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync(request);
+            HttpResponseMessage response = await client.GetAsync(url);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStringAsync();
-         }
+        }
     }
 }
