@@ -15,6 +15,14 @@ namespace ConsoleApp_for_Self_Hosted_WS
             RootDirection rootDirectionAB = findTheWay(positionA, positionB);
             RootDirection rootDirectionBC = findTheWay(positionB, positionC);
             RootDirection rootDirectionCD = findTheWay(positionC, positionD);
+            
+            foreach(Feature f in rootDirectionAB.features)
+            {
+                foreach(int i in f.geometry.coordinates)
+                {
+                    Console.WriteLine(i);
+                }
+            }
         }
 
         public RootDirection findTheWay(Position positionA, Position positionB)
