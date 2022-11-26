@@ -1,16 +1,14 @@
-﻿using MyRoutingServer;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Http;
 
-namespace ConsoleApp_for_Self_Hosted_WS
+namespace WcfServiceLibrary1
 {
     internal class APIManager
-    { 
+    {
         public string formatUrl(string adress)
         {
             string url = "";
@@ -35,9 +33,9 @@ namespace ConsoleApp_for_Self_Hosted_WS
             string s = "" + val;
             string result = "";
 
-            foreach(char c in s)
+            foreach (char c in s)
             {
-                if(c == ',')
+                if (c == ',')
                 {
                     result = result + ".";
                 }

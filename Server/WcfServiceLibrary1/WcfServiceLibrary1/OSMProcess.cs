@@ -1,12 +1,11 @@
-﻿using MyRoutingServer;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
-namespace ConsoleApp_for_Self_Hosted_WS
+namespace WcfServiceLibrary1
 {
     internal class OSMProcess
     {

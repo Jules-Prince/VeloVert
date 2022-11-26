@@ -1,12 +1,11 @@
-﻿using MyRoutingServer;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
-namespace ConsoleApp_for_Self_Hosted_WS
+namespace WcfServiceLibrary1
 {
     internal class JCDecauxProcess
     {
@@ -52,14 +51,14 @@ namespace ConsoleApp_for_Self_Hosted_WS
 
             foreach (RootJCDecauxDataAPI rootJC in root)
             {
-                if(myStation == null)
+                if (myStation == null)
                 {
                     myStation = rootJC;
                 }
                 else
                 {
                     res = distancePythagore(rootJC, osmC);
-                    if(res < distance)
+                    if (res < distance)
                     {
                         distance = res;
                         myStation = rootJC;
