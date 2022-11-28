@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace WcfServiceLibrary1
+namespace RoutingServer
 {
 
 
-    public class navigationveloservice : INavigationveloserviceSOAP
+    public class NavigationveloserviceSOAP : INavigationveloserviceSOAP
     {
         [return: XmlElement("Chemin", Form = XmlSchemaForm.Unqualified)]
         public Positions getCheminAVelo([XmlElement(Form = XmlSchemaForm.Unqualified)] string Depart, [XmlElement(Form = XmlSchemaForm.Unqualified)] string Arrivee)
