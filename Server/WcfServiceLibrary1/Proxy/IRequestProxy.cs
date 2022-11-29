@@ -8,6 +8,7 @@ using System.Web.Services.Protocols;
 using System.Threading.Tasks;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using System.Data.SqlTypes;
 
 namespace Proxy
 {
@@ -15,6 +16,6 @@ namespace Proxy
     internal interface IRequestProxy
     {
         [OperationContract]
-        string getCheminAVelo(string Depart, string Arrivee);
+        string JCDecauxRequest(string city);
     }
 }
