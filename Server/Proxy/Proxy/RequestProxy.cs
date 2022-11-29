@@ -16,7 +16,12 @@ namespace Proxy
             HttpClient client = new HttpClient();
             HttpResponseMessage response = client.GetAsync(url).Result;
             response.EnsureSuccessStatusCode();
-            return response.Content.ReadAsStringAsync().Result;
+            string myJson = response.Content.ReadAsStringAsync().Result;
+            
+            Console.WriteLine("URL : " + urlAPI);
+            Console.Write("myJson : " + myJson);
+            
+            return myJson;
         }
     }
 }

@@ -80,9 +80,12 @@ namespace RoutingServer
         private List<RootJCDecauxDataAPI> buildDeserializedClass(string urlAPI, string param)
         {
             APIManager aPIManager = new APIManager();
+
             //string result = aPIManager.APICall(aPIManager.formatUrl(urlAPI), param).Result;
             RequestProxy.RequestProxyClient request = new RequestProxy.RequestProxyClient();
+           
             string result = request.JCDecauxRequest(param);
+
             return JsonConvert.DeserializeObject<List<RootJCDecauxDataAPI>>(result);
         }
 
