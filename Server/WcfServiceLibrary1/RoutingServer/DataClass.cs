@@ -9,9 +9,6 @@ namespace RoutingServer
 
     public class Positions
     {
-
-        private List<Position> stepField;
-
         /// <remarks/>
         public List<Position> step{ set; get; }
     }

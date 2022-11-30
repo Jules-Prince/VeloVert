@@ -19,6 +19,7 @@ namespace RoutingServer
 
             //Create ServiceHost
             ServiceHost host = new ServiceHost(typeof(NavigationveloserviceSOAP), httpUrl);
+            
 
             // Multiple end points can be added to the Service using AddServiceEndpoint() method.
             // Host.Open() will run the service, so that it can be used by any client.
