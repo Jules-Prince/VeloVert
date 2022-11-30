@@ -61,7 +61,28 @@ namespace Proxy
          */
         public T Get(string CacheItemName, double dt_seconds)
         {
-            return (T)cache[CacheItemName];
+            T val = (T)cache[CacheItemName];
+
+            if (val == null)
+            {
+                ApiManager api = new ApiManager();
+
+                /**
+                 * Initializes a new instance of the DateTime structure to the specified
+                 * year, month, day, hour, minute, second, millisecond, 
+                 * and Coordinated Universal Time (UTC) or local time for the specified calendar.
+                 * DateTime(Int32, Int32, Int32, Int32, Int32, Int32, Int32, Int32)
+                 */
+                cache.Add(CacheItemName, api.run(CacheItemName), DateTimeOffset.Now.AddSeconds(dt_seconds));
+                val = (T)cache[CacheItemName];
+                Console.WriteLine("Pas en cache");
+            }
+            else
+            {
+                Console.WriteLine("En cache");
+            }
+
+            return val;
         }
 
         /**
@@ -73,7 +94,22 @@ namespace Proxy
          */
         public T Get(string CacheItemName, DateTimeOffset dt)
         {
-            return (T)cache[CacheItemName];
+            T val = (T)cache[CacheItemName];
+
+            if (val == null)
+            {
+                ApiManager api = new ApiManager();
+
+                cache.Add(CacheItemName, api.run(CacheItemName), dt);
+                val = (T)cache[CacheItemName];
+                Console.WriteLine("Pas en cache");
+            }
+            else
+            {
+                Console.WriteLine("En cache");
+            }
+
+            return val;
         }
     }
 }
