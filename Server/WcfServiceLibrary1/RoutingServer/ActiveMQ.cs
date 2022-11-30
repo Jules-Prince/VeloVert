@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel.Channels;
 using System.Text;
 using System.Threading.Tasks;
 using Apache.NMS;
 using Apache.NMS.ActiveMQ;
 
-namespace ActiveMQ
+namespace RoutingServer
 {
-    internal class Program
+    internal class ActiveMQ
     {
-        static void Main(string[] args)
+        public void producer()
         {
             // Create a Connection Factory.
             Uri connecturi = new Uri("activemq:tcp://localhost:61616");
