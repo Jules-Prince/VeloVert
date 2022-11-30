@@ -16,7 +16,6 @@ namespace RoutingServer
             //Be careful to run Visual Studio as Admistrator or to allow VS to open new port netsh command. 
             // Example : netsh http add urlacl url=http://+:80/MyUri user=DOMAIN\user
             Uri httpUrl = new Uri("http://localhost:8081/navigationveloservice/");
-            //Uri httpUrl = new Uri("http://192.168.43.224:8081/navigationveloservice/");
 
             //Create ServiceHost
             ServiceHost host = new ServiceHost(typeof(NavigationveloserviceSOAP), httpUrl);
