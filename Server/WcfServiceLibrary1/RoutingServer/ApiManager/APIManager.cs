@@ -7,7 +7,7 @@ using System.Net.Http;
 
 namespace RoutingServer
 {
-    internal class APIManager
+    public class ApiManager
     {
         public string formatUrl(string adress)
         {

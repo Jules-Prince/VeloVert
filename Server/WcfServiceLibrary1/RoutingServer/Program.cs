@@ -60,19 +60,31 @@ namespace RoutingServer
             //string Depart = "57 avenue de la gare 06800 Cagne sur mer";
             //string Arrivee = "4 Pl. du Marché, 69009 Lyon";
             string Arrivee = "12 Bd Fernand Bonnefoy, 13010 Marseille";
+            /**
+                * 1. Calls OpenStreetMap to retrieve information about the
+                * given address.
+                */
 
             OSMProcess osmProcess = new OSMProcess();
             osmProcess.run(Depart, Arrivee);
             osmProcess.printOSMCoordiante();
+
 
             /**
              * 2. Calls JCDecaux to retrieve the stations and find: the
              * closest one from the origin with available bikes, and the
              * closest from the destination with places to drop the bike.
              */
+            string cityA = osmProcess.OSMCoordinateA.city;
+            double latitudeA = osmProcess.OSMCoordinateA.latitude;
+            double longitudeA = osmProcess.OSMCoordinateA.longitude;
+
+            string cityB = osmProcess.OSMCoordinateB.city;
+            double latitudeB = osmProcess.OSMCoordinateB.latitude;
+            double longitudeB = osmProcess.OSMCoordinateB.longitude;
 
             JCDecauxProcess jCDecauxProcess = new JCDecauxProcess();
-            jCDecauxProcess.run(osmProcess.OSMCoordinateA, osmProcess.OSMCoordinateB);
+            jCDecauxProcess.run(cityA, latitudeA, longitudeA, cityB, latitudeB, longitudeB);
             jCDecauxProcess.printJCDevauxCoordinate();
 
             /*
@@ -84,12 +96,6 @@ namespace RoutingServer
             //https://api.openrouteservice.org/v2/directions/driving-car?api_key=your-api-key&start=8.681495,49.41461&end=8.687872,49.420318
             DirectionProcess directionProcess = new DirectionProcess();
             Positions positions = directionProcess.run(osmProcess.positionA, jCDecauxProcess.positionA, jCDecauxProcess.positionB, osmProcess.positionB);
-
-            foreach (Position position in positions.step) {
-                Console.WriteLine("");
-                Console.WriteLine("Latitude : " + position.latitude);
-                Console.WriteLine("Longitude : " + position.longitude);
-            }
 
 
             Guid guid = Guid.NewGuid();

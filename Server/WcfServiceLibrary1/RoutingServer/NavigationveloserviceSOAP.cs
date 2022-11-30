@@ -30,9 +30,16 @@ namespace RoutingServer
              * closest one from the origin with available bikes, and the
              * closest from the destination with places to drop the bike.
              */
+            string cityA = osmProcess.OSMCoordinateA.city;
+            double latitudeA = osmProcess.OSMCoordinateA.latitude;
+            double longitudeA = osmProcess.OSMCoordinateA.longitude;
+
+            string cityB = osmProcess.OSMCoordinateB.city;
+            double latitudeB = osmProcess.OSMCoordinateB.latitude;
+            double longitudeB = osmProcess.OSMCoordinateB.longitude;
 
             JCDecauxProcess jCDecauxProcess = new JCDecauxProcess();
-            jCDecauxProcess.run(osmProcess.OSMCoordinateA, osmProcess.OSMCoordinateB);
+            jCDecauxProcess.run(cityA, latitudeA, longitudeA, cityB, latitudeB, longitudeB);
             jCDecauxProcess.printJCDevauxCoordinate();
 
             /*

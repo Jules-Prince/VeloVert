@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Apache.NMS;
 using Apache.NMS.ActiveMQ;
+using ApiData;
 
-namespace RoutingServer
+namespace ActiveMQ
 {
-    internal class ActiveMQ
+    public class ActiveMQ
     {
         public void producer(Positions positions, Guid guid)
         {

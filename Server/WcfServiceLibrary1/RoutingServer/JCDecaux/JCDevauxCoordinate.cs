@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenStreetMap
+namespace RoutingServer
 {
-    internal class OSMCoordinate
+    public class JCDevauxCoordinate
     {
         public double latitude { get; set; }
         public double longitude { get; set; }
-        public string city { get; set; }
     }
 }

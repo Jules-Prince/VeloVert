@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RoutingServer
 {
-    internal class OSMCoordinate
+    public class OSMCoordinate
     {
         public double latitude { get; set; }
         public double longitude { get; set; }

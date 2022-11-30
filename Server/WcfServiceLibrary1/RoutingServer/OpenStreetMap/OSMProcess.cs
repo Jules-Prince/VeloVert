@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace OpenStreetMap
+namespace RoutingServer
 {
-    internal class OSMProcess
+    public class OSMProcess
     {
         public OSMCoordinate OSMCoordinateA { get; set; }
         public OSMCoordinate OSMCoordinateB { get; set; }
@@ -47,7 +47,7 @@ namespace OpenStreetMap
 
         private Root buildDeserializedClass(string urlAPI, string param)
         {
-            APIManager aPIManager = new APIManager();
+            ApiManager aPIManager = new ApiManager();
             string result = aPIManager.APICall(aPIManager.formatUrl(urlAPI), param).Result;
             return JsonConvert.DeserializeObject<Root>(result);
         }
