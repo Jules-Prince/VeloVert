@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using RoutingServer.MyProxy;
 
 namespace RoutingServer
 {
@@ -24,15 +26,15 @@ namespace RoutingServer
             string urlAPI = "https://api.jcdecaux.com/vls/v3/stations?apiKey=56c5d019b4d68c1bd60800a1345b299bc7bb95b0&contract=";
 
             // 1 Récuperer la listes des stations avec le nom de la ville
-            List<RootJCDecauxDataAPI> rootA = buildDeserializedClass(urlAPI, oA.city);
+            List<RootJCDecauxItem> rootA = buildDeserializedClass(urlAPI, oA.city);
             //printLatitudeLongitudeStation(rootA);
 
-            List<RootJCDecauxDataAPI> rootB = buildDeserializedClass(urlAPI, oB.city);
+            List<RootJCDecauxItem> rootB = buildDeserializedClass(urlAPI, oB.city);
             //printLatitudeLongitudeStation(rootB);
 
             // 2 Chercher la station la plus proche avec les coordonnées gps
-            RootJCDecauxDataAPI rootJCDecauxDataA = findStationMoreClosed(rootA, oA);
-            RootJCDecauxDataAPI rootJCDecauxDataB = findStationMoreClosed(rootB, oB);
+            RootJCDecauxItem rootJCDecauxDataA = findStationMoreClosed(rootA, oA);
+            RootJCDecauxItem rootJCDecauxDataB = findStationMoreClosed(rootB, oB);
 
 
             // 3 J'enregistre les coordonnées dans la classe adéquate.
@@ -43,13 +45,13 @@ namespace RoutingServer
             this.positionB.longitude = rootJCDecauxDataB.position.longitude;
         }
 
-        private RootJCDecauxDataAPI findStationMoreClosed(List<RootJCDecauxDataAPI> root, OSMCoordinate osmC)
+        private RootJCDecauxItem findStationMoreClosed(List<RootJCDecauxItem> root, OSMCoordinate osmC)
         {
-            RootJCDecauxDataAPI myStation = null;
+            RootJCDecauxItem myStation = null;
             double distance = 99999999999;
             double res;
 
-            foreach (RootJCDecauxDataAPI rootJC in root)
+            foreach (RootJCDecauxItem rootJC in root)
             {
                 if (myStation == null)
                 {
@@ -68,7 +70,7 @@ namespace RoutingServer
             return myStation;
         }
 
-        private double distancePythagore(RootJCDecauxDataAPI rootJC, OSMCoordinate osmC)
+        private double distancePythagore(RootJCDecauxItem rootJC, OSMCoordinate osmC)
         {
             // Pythagore 
             double x = Math.Abs(osmC.longitude - rootJC.position.longitude);
@@ -77,16 +79,23 @@ namespace RoutingServer
             return d;
         }
 
-        private List<RootJCDecauxDataAPI> buildDeserializedClass(string urlAPI, string param)
+        private List<RootJCDecauxItem> buildDeserializedClass(string urlAPI, string param)
         {
             APIManager aPIManager = new APIManager();
 
             //string result = aPIManager.APICall(aPIManager.formatUrl(urlAPI), param).Result;
-            RequestProxy.RequestProxyClient request = new RequestProxy.RequestProxyClient();
-           
-            string result = request.JCDecauxRequest(param);
+            MyProxy.RequestProxyClient requestProxy = new MyProxy.RequestProxyClient();
+            JCDecauxItem result = requestProxy.JCDecauxRequest(param);
+            return this.convert(result.root);
+        }
 
-            return JsonConvert.DeserializeObject<List<RootJCDecauxDataAPI>>(result);
+        private List<RootJCDecauxItem> convert(RoutingServer.MyProxy.RootJCDecauxItem[] list)
+        {
+            List<RootJCDecauxItem> myNewList = new List<RootJCDecauxItem>();
+            foreach (RootJCDecauxItem elt in list) { 
+                myNewList.Add(elt);
+            }
+            return myNewList;
         }
 
         /**

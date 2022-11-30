@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="7a6b78a0-415a-4c47-8c58-2a285f9f037a" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="658253ab-215a-4469-9107-40868ed7c7ac" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,10 +22,11 @@
     <MetadataSource Address="http://localhost:8081/RequestProxy/" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="e8e8c1dc-94e0-4cc8-918b-f29d8e2c4800" SourceId="1" SourceUrl="http://localhost:8081/RequestProxy/?xsd=xsd1" />
-    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="540f4156-2d27-40ef-be30-7b44103a7671" SourceId="1" SourceUrl="http://localhost:8081/RequestProxy/?xsd=xsd0" />
-    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="791e017e-f353-443d-9c85-6e80a76fc82e" SourceId="1" SourceUrl="http://localhost:8081/RequestProxy/?disco" />
-    <MetadataFile FileName="RequestProxy.wsdl" MetadataType="Wsdl" ID="ae108717-764a-4dd7-bda7-c66d25ae0e26" SourceId="1" SourceUrl="http://localhost:8081/RequestProxy/?wsdl" />
+    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="1dbf46af-a3c7-4384-870b-378227a1662e" SourceId="1" SourceUrl="http://localhost:8081/RequestProxy/?xsd=xsd1" />
+    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="031f1fcc-503c-4fc8-9aa5-14c51748ec5e" SourceId="1" SourceUrl="http://localhost:8081/RequestProxy/?xsd=xsd0" />
+    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="1216208d-c5d3-43e5-9c8d-dd33397926e2" SourceId="1" SourceUrl="http://localhost:8081/RequestProxy/?disco" />
+    <MetadataFile FileName="RequestProxy.wsdl" MetadataType="Wsdl" ID="f920e84e-7e9b-48b6-9a44-2e408dfe76d3" SourceId="1" SourceUrl="http://localhost:8081/RequestProxy/?wsdl" />
+    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="d0f83297-0002-4369-a82f-c3aecb10a360" SourceId="1" SourceUrl="http://localhost:8081/RequestProxy/?xsd=xsd2" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

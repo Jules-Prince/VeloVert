@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="9.1" CheckSum="4pfoIi//l2h1K5ckYG0KnvbO0+p56CTzV5vkw1MMPWA=">
+<SavedWcfConfigurationInformation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="9.1" CheckSum="RtBSe1sAdtcOZxXcnzDphwpoI0Hb5mEjkC5L1I4yzYQ=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="wsHttpBinding" name="WSHttpBinding_IRequestProxy">
       <properties>
@@ -127,7 +127,7 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="WSHttpBinding_IRequestProxy" contract="RequestProxy.IRequestProxy" bindingType="wsHttpBinding" address="http://localhost:8081/RequestProxy/" bindingConfiguration="WSHttpBinding_IRequestProxy">
+    <endpoint name="WSHttpBinding_IRequestProxy" contract="MyProxy.IRequestProxy" bindingType="wsHttpBinding" address="http://localhost:8081/RequestProxy/" bindingConfiguration="WSHttpBinding_IRequestProxy">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>http://localhost:8081/RequestProxy/</serializedValue>
@@ -142,7 +142,7 @@
           <serializedValue>WSHttpBinding_IRequestProxy</serializedValue>
         </property>
         <property path="/contract" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>RequestProxy.IRequestProxy</serializedValue>
+          <serializedValue>MyProxy.IRequestProxy</serializedValue>
         </property>
         <property path="/headers" isComplexType="true" isExplicitlyDefined="false" clrType="System.ServiceModel.Configuration.AddressHeaderCollectionElement, System.ServiceModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>System.ServiceModel.Configuration.AddressHeaderCollectionElement</serializedValue>

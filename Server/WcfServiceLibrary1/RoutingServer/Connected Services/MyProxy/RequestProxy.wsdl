@@ -138,6 +138,7 @@
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://localhost:8081/RequestProxy/?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:8081/RequestProxy/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:8081/RequestProxy/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Proxy" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IRequestProxy_JCDecauxRequest_InputMessage">

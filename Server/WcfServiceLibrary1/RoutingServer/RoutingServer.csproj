@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIManager.cs" />
-    <Compile Include="Connected Services\RequestProxy\Reference.cs">
+    <Compile Include="Connected Services\MyProxy\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -69,32 +69,38 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Connected Services\RequestProxy\item.xsd">
+    <None Include="Connected Services\MyProxy\item.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\RequestProxy\item1.xsd">
+    <None Include="Connected Services\MyProxy\item1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\RequestProxy\RequestProxy.wsdl" />
+    <None Include="Connected Services\MyProxy\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\MyProxy\RequestProxy.wsdl" />
+    <None Include="Connected Services\MyProxy\RoutingServer.MyProxy.JCDecauxItem.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\RequestProxy\" />
+    <WCFMetadataStorage Include="Connected Services\MyProxy\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\RequestProxy\item.disco" />
+    <None Include="Connected Services\MyProxy\item.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\RequestProxy\configuration91.svcinfo" />
+    <None Include="Connected Services\MyProxy\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\RequestProxy\configuration.svcinfo" />
+    <None Include="Connected Services\MyProxy\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\RequestProxy\Reference.svcmap">
+    <None Include="Connected Services\MyProxy\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

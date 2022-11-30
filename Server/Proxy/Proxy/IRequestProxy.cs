@@ -16,6 +16,6 @@ namespace Proxy
     internal interface IRequestProxy
     {
         [OperationContract]
-        string JCDecauxRequest(string city);
+        JCDecauxItem JCDecauxRequest(string city);
     }
 }

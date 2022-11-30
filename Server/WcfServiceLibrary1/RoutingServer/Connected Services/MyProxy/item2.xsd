@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Proxy" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Proxy" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="JCDecauxItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="root" nillable="true" type="tns:ArrayOfRootJCDecauxItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="JCDecauxItem" nillable="true" type="tns:JCDecauxItem" />
+  <xs:complexType name="ArrayOfRootJCDecauxItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="RootJCDecauxItem" nillable="true" type="tns:RootJCDecauxItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfRootJCDecauxItem" nillable="true" type="tns:ArrayOfRootJCDecauxItem" />
+  <xs:complexType name="RootJCDecauxItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="address" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="banking" type="xs:boolean" />
+      <xs:element minOccurs="0" name="bonus" type="xs:boolean" />
+      <xs:element minOccurs="0" name="connected" type="xs:boolean" />
+      <xs:element minOccurs="0" name="contractName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="lastUpdate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="mainStands" nillable="true" type="tns:MainStands" />
+      <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="number" type="xs:int" />
+      <xs:element minOccurs="0" name="overflow" type="xs:boolean" />
+      <xs:element minOccurs="0" name="overflowStands" nillable="true" type="tns:OverflowStands" />
+      <xs:element minOccurs="0" name="position" nillable="true" type="tns:Position" />
+      <xs:element minOccurs="0" name="shape" nillable="true" type="xs:anyType" />
+      <xs:element minOccurs="0" name="status" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="totalStands" nillable="true" type="tns:TotalStands" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RootJCDecauxItem" nillable="true" type="tns:RootJCDecauxItem" />
+  <xs:complexType name="MainStands">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="availabilities" nillable="true" type="tns:Availabilities" />
+      <xs:element minOccurs="0" name="capacity" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MainStands" nillable="true" type="tns:MainStands" />
+  <xs:complexType name="Availabilities">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="bikes" type="xs:int" />
+      <xs:element minOccurs="0" name="electricalBikes" type="xs:int" />
+      <xs:element minOccurs="0" name="electricalInternalBatteryBikes" type="xs:int" />
+      <xs:element minOccurs="0" name="electricalRemovableBatteryBikes" type="xs:int" />
+      <xs:element minOccurs="0" name="mechanicalBikes" type="xs:int" />
+      <xs:element minOccurs="0" name="stands" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Availabilities" nillable="true" type="tns:Availabilities" />
+  <xs:complexType name="OverflowStands">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="availabilities" nillable="true" type="tns:Availabilities" />
+      <xs:element minOccurs="0" name="capacity" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="OverflowStands" nillable="true" type="tns:OverflowStands" />
+  <xs:complexType name="Position">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="latitude" type="xs:double" />
+      <xs:element minOccurs="0" name="longitude" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Position" nillable="true" type="tns:Position" />
+  <xs:complexType name="TotalStands">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="availabilities" nillable="true" type="tns:Availabilities" />
+      <xs:element minOccurs="0" name="capacity" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TotalStands" nillable="true" type="tns:TotalStands" />
+</xs:schema>
