@@ -11,7 +11,7 @@ namespace RoutingServer
 {
     internal class ActiveMQ
     {
-        public void producer()
+        public void producer(Positions positions, Guid guid)
         {
             // Create a Connection Factory.
             Uri connecturi = new Uri("activemq:tcp://localhost:61616");
@@ -22,10 +22,10 @@ namespace RoutingServer
             connection.Start();
 
             // Create a session from the Connection.
-            ISession session = connection.CreateSession();
+            Apache.NMS.ISession session = connection.CreateSession();
 
             // Use the session to target a queue.
-            IDestination destination = session.GetQueue("test");
+            IDestination destination = session.GetQueue(guid.ToString());
 
             // Create a Producer targetting the selected queue.
             IMessageProducer producer = session.CreateProducer(destination);
@@ -33,12 +33,20 @@ namespace RoutingServer
             // You may configure everything to your needs, for instance:
             producer.DeliveryMode = MsgDeliveryMode.NonPersistent;
 
+
+
             // Finally, to send messages:
-            ITextMessage message = session.CreateTextMessage("Hello World 2");
-            producer.Send(message);
+            //ITextMessage message = session.CreateTextMessage("Hello World 2");
+            //producer.Send(message);
+
+            foreach(Position position in positions.step) {
+                IObjectMessage message = session.CreateObjectMessage(position);
+                producer.Send(message);
+            }
+
 
             Console.WriteLine("Message sent, check ActiveMQ web interface to confirm.");
-            Console.ReadLine();
+            //Console.ReadLine();
 
             // Don't forget to close your session and connection when finished.
             session.Close();

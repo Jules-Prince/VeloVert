@@ -53,7 +53,7 @@ namespace RoutingServer
             string param = start + end;
 
             Console.WriteLine(urlAPI + param);
-            Console.ReadLine();
+            //Console.ReadLine();
 
             string result = aPIManager.APICall(urlAPI, param).Result;
             return JsonConvert.DeserializeObject<RootDirection>(result);

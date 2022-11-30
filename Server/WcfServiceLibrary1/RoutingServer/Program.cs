@@ -90,7 +90,13 @@ namespace RoutingServer
                 Console.WriteLine("Latitude : " + position.latitude);
                 Console.WriteLine("Longitude : " + position.longitude);
             }
+
+
+            Guid guid = Guid.NewGuid();
+            ActiveMQ activeMQ = new ActiveMQ();
+            activeMQ.producer(positions, guid);
             
+                        
             Console.WriteLine("TEST OK");
         }
     }

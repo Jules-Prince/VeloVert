@@ -13,7 +13,7 @@ namespace RoutingServer
     public class NavigationveloserviceSOAP : INavigationveloserviceSOAP
     {
         [return: XmlElement("Chemin", Form = XmlSchemaForm.Unqualified)]
-        public Positions getCheminAVelo([XmlElement(Form = XmlSchemaForm.Unqualified)] string Depart, [XmlElement(Form = XmlSchemaForm.Unqualified)] string Arrivee)
+        public Guid getCheminAVelo([XmlElement(Form = XmlSchemaForm.Unqualified)] string Depart, [XmlElement(Form = XmlSchemaForm.Unqualified)] string Arrivee)
         {
             /**
              * 1. Calls OpenStreetMap to retrieve information about the
@@ -45,7 +45,16 @@ namespace RoutingServer
             DirectionProcess directionProcess = new DirectionProcess();
             Positions positions = directionProcess.run(osmProcess.positionA, jCDecauxProcess.positionA, jCDecauxProcess.positionB, osmProcess.positionB);
 
-            return positions;
+
+            /**
+             * ActiveMQ
+             */
+
+            Guid guid = Guid.NewGuid();
+            ActiveMQ activeMQ = new ActiveMQ();
+            activeMQ.producer(positions, guid);
+
+            return guid;
         }
     }
 }
