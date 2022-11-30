@@ -47,6 +47,7 @@ namespace RoutingServer
         public OverflowStands overflowStands { get; set; }
     }
 
+    [Serializable]
     public class Position
     {
         public double latitude { get; set; }

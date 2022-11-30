@@ -45,7 +45,7 @@ namespace RoutingServer
 
         public RootDirection findTheWay(Position positionA, Position positionB)
         {
-            APIManager aPIManager = new APIManager();
+            ApiManager aPIManager = new ApiManager();
 
             string urlAPI = "https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf624857ddfd522faa498cb4d1d74518230dff";
             string start = "&start=" + aPIManager.correctPostionFormat(positionA.longitude) + "," + aPIManager.correctPostionFormat(positionA.latitude);
@@ -53,7 +53,7 @@ namespace RoutingServer
             string param = start + end;
 
             Console.WriteLine(urlAPI + param);
-            Console.ReadLine();
+            //Console.ReadLine();
 
             string result = aPIManager.APICall(urlAPI, param).Result;
             return JsonConvert.DeserializeObject<RootDirection>(result);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RoutingServer
 {
-    internal class JCDevauxCoordinate
+    public class JCDevauxCoordinate
     {
         public double latitude { get; set; }
         public double longitude { get; set; }

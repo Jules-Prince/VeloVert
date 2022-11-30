@@ -51,15 +51,19 @@ namespace RoutingServer
         static public void test()
         {
             /**
- * 1. Calls OpenStreetMap to retrieve information about the
- * given address.
- */
+             * 1. Calls OpenStreetMap to retrieve information about the
+             * given address.
+             */
 
             string Depart = "33 Rue Edouard Nieuport, 69008 Lyon";
             //string Arrivee = "4 Pl. du Marché, 69009 Lyon";
             //string Depart = "57 avenue de la gare 06800 Cagne sur mer";
             //string Arrivee = "4 Pl. du Marché, 69009 Lyon";
             string Arrivee = "12 Bd Fernand Bonnefoy, 13010 Marseille";
+            /**
+                * 1. Calls OpenStreetMap to retrieve information about the
+                * given address.
+                */
 
             OSMProcess osmProcess = new OSMProcess();
             osmProcess.run(Depart, Arrivee);
@@ -71,9 +75,16 @@ namespace RoutingServer
              * closest one from the origin with available bikes, and the
              * closest from the destination with places to drop the bike.
              */
+            string cityA = osmProcess.OSMCoordinateA.city;
+            double latitudeA = osmProcess.OSMCoordinateA.latitude;
+            double longitudeA = osmProcess.OSMCoordinateA.longitude;
+
+            string cityB = osmProcess.OSMCoordinateB.city;
+            double latitudeB = osmProcess.OSMCoordinateB.latitude;
+            double longitudeB = osmProcess.OSMCoordinateB.longitude;
 
             JCDecauxProcess jCDecauxProcess = new JCDecauxProcess();
-            jCDecauxProcess.run(osmProcess.OSMCoordinateA, osmProcess.OSMCoordinateB);
+            jCDecauxProcess.run(cityA, latitudeA, longitudeA, cityB, latitudeB, longitudeB);
             jCDecauxProcess.printJCDevauxCoordinate();
 
             /*
@@ -87,12 +98,11 @@ namespace RoutingServer
             Positions positions = directionProcess.run(osmProcess.positionA, jCDecauxProcess.positionA, jCDecauxProcess.positionB, osmProcess.positionB);
 
 
-            foreach (Position position in positions.step) {
-                Console.WriteLine("");
-                Console.WriteLine("Latitude : " + position.latitude);
-                Console.WriteLine("Longitude : " + position.longitude);
-            }
+            Guid guid = Guid.NewGuid();
+            ActiveMQ activeMQ = new ActiveMQ();
+            activeMQ.producer(positions, guid);
             
+                        
             Console.WriteLine("TEST OK");
         }
     }

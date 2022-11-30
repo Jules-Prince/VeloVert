@@ -13,7 +13,7 @@ namespace RoutingServer
     public class NavigationveloserviceSOAP : INavigationveloserviceSOAP
     {
         [return: XmlElement("Chemin", Form = XmlSchemaForm.Unqualified)]
-        public Positions getCheminAVelo([XmlElement(Form = XmlSchemaForm.Unqualified)] string Depart, [XmlElement(Form = XmlSchemaForm.Unqualified)] string Arrivee)
+        public Guid getCheminAVelo([XmlElement(Form = XmlSchemaForm.Unqualified)] string Depart, [XmlElement(Form = XmlSchemaForm.Unqualified)] string Arrivee)
         {
             /**
              * 1. Calls OpenStreetMap to retrieve information about the
@@ -30,9 +30,16 @@ namespace RoutingServer
              * closest one from the origin with available bikes, and the
              * closest from the destination with places to drop the bike.
              */
+            string cityA = osmProcess.OSMCoordinateA.city;
+            double latitudeA = osmProcess.OSMCoordinateA.latitude;
+            double longitudeA = osmProcess.OSMCoordinateA.longitude;
+
+            string cityB = osmProcess.OSMCoordinateB.city;
+            double latitudeB = osmProcess.OSMCoordinateB.latitude;
+            double longitudeB = osmProcess.OSMCoordinateB.longitude;
 
             JCDecauxProcess jCDecauxProcess = new JCDecauxProcess();
-            jCDecauxProcess.run(osmProcess.OSMCoordinateA, osmProcess.OSMCoordinateB);
+            jCDecauxProcess.run(cityA, latitudeA, longitudeA, cityB, latitudeB, longitudeB);
             jCDecauxProcess.printJCDevauxCoordinate();
 
             /*
@@ -45,7 +52,16 @@ namespace RoutingServer
             DirectionProcess directionProcess = new DirectionProcess();
             Positions positions = directionProcess.run(osmProcess.positionA, jCDecauxProcess.positionA, jCDecauxProcess.positionB, osmProcess.positionB);
 
-            return positions;
+
+            /**
+             * ActiveMQ
+             */
+
+            Guid guid = Guid.NewGuid();
+            ActiveMQ activeMQ = new ActiveMQ();
+            activeMQ.producer(positions, guid);
+
+            return guid;
         }
     }
 }

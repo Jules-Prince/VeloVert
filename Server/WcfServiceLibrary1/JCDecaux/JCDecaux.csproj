@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{348EC303-33CF-48D6-B03D-6281690F7005}</ProjectGuid>
+    <ProjectGuid>{6574ECB7-4FE1-4753-BEE0-78000F3CC087}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>RoutingServer</RootNamespace>
-    <AssemblyName>RoutingServer</AssemblyName>
+    <RootNamespace>JCDecaux</RootNamespace>
+    <AssemblyName>JCDecaux</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -33,31 +33,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Apache.NMS, Version=2.0.0.0, Culture=neutral, PublicKeyToken=82756feee3957618, processorArchitecture=MSIL">
-      <HintPath>..\packages\Apache.NMS.2.0.0\lib\net40\Apache.NMS.dll</HintPath>
-    </Reference>
-    <Reference Include="Apache.NMS.ActiveMQ, Version=2.0.0.0, Culture=neutral, PublicKeyToken=82756feee3957618, processorArchitecture=MSIL">
-      <HintPath>..\packages\Apache.NMS.ActiveMQ.2.0.0\lib\netstandard2.0\Apache.NMS.ActiveMQ.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=1.3.3.11, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpZipLib.1.3.3\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,22 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActiveMQ\ActiveMQ.cs" />
-    <Compile Include="ApiData\ApiData.cs" />
-    <Compile Include="ApiManager\APIManager.cs" />
     <Compile Include="Connected Services\MyProxy\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="DirectionProcess.cs" />
-    <Compile Include="INavigationveloserviceSOAP.cs" />
-    <Compile Include="JCDecaux\JCDecauxProcess.cs" />
-    <Compile Include="JCDecaux\JCDevauxCoordinate.cs" />
-    <Compile Include="NavigationveloserviceSOAP.cs" />
-    <Compile Include="OpenStreetMap\OSMCoordinate.cs" />
-    <Compile Include="OpenStreetMap\OSMProcess.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -95,11 +66,17 @@
     <None Include="Connected Services\MyProxy\item2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\MyProxy\RequestProxy.wsdl" />
-    <None Include="Connected Services\MyProxy\RoutingServer.MyProxy.JCDecauxItem.datasource">
+    <None Include="Connected Services\MyProxy\JCDecaux.MyProxy.JCDecauxItem.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\MyProxy\RequestProxy.wsdl" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ApiManager\ApiManager.csproj">
+      <Project>{5cfe7836-c28b-4c63-a07f-5c18584aa8c7}</Project>
+      <Name>ApiManager</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
