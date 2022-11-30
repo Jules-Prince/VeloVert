@@ -16,6 +16,7 @@ namespace RoutingServer
             //Be careful to run Visual Studio as Admistrator or to allow VS to open new port netsh command. 
             // Example : netsh http add urlacl url=http://+:80/MyUri user=DOMAIN\user
             Uri httpUrl = new Uri("http://localhost:8081/navigationveloservice/");
+            //Uri httpUrl = new Uri("http://192.168.43.224:8081/navigationveloservice/");
 
             //Create ServiceHost
             ServiceHost host = new ServiceHost(typeof(NavigationveloserviceSOAP), httpUrl);
@@ -55,7 +56,10 @@ namespace RoutingServer
  */
 
             string Depart = "33 Rue Edouard Nieuport, 69008 Lyon";
-            string Arrivee = "4 Pl. du Marché, 69009 Lyon";
+            //string Arrivee = "4 Pl. du Marché, 69009 Lyon";
+            //string Depart = "57 avenue de la gare 06800 Cagne sur mer";
+            //string Arrivee = "4 Pl. du Marché, 69009 Lyon";
+            string Arrivee = "12 Bd Fernand Bonnefoy, 13010 Marseille";
 
             OSMProcess osmProcess = new OSMProcess();
             osmProcess.run(Depart, Arrivee);
