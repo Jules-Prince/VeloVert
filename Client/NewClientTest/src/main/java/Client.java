@@ -19,40 +19,25 @@ public class Client implements javax.jms.MessageListener{
     private static InitialContext context = null;
 
     public void factory(String username, String password, String broker) throws JMSException {
-        // 1 Création de la connexion pour connecter correctement le code (la JVM) au broker.
-        // ( la documentation si nécessaire est ici http://docs.oracle.com/javaee/7/api/javax/jms/Connection.html
-        // pour plus d'informations sur ce qu'est une connexion)
         javax.jms.ConnectionFactory factory;
         factory = new ActiveMQConnectionFactory(username, password, broker);
         connect = factory.createConnection (username, password);
     }
 
     public javax.jms.Queue queueBuild(String myQueueName) throws JMSException {
-        // 2 Code du producteur qui crée une session, http://docs.oracle.com/javaee/7/api/javax/jms/Session.html
-        // qui crée explicitement un point d'accès à la file d'attente en utilisant son nom (notez que c'est non
-        // compatible JMS mais spécifique à ActiveMQ ) et se fait producteur .
-        // Ensuite, le code devra produire des messages, mais attendez la prochaine
-        // question pour programmer ces productions de messages !
+
         sendSession = connect.createSession(false,javax.jms.Session.AUTO_ACKNOWLEDGE);
         javax.jms.Queue queue = sendSession.createQueue (myQueueName);
         return  queue;
     }
 
     public javax.jms.MessageConsumer conommateur(javax.jms.Queue queue) throws JMSException {
-        // 3 Code du consommateur qui crée une session et se transforme en consommateur à partir de
-        // la file d'attente (la file d'attente qui a été explicitement identifiée à l'étape 2
-        // ci-dessus, dans le code). La partie consommateur du code encode la méthode onMessage ( ) (et en tant que
-        // telle, déclare qu'elle implémente l' interface MessageListener JMS). Dans cette question, l'auditeur invoque
-        // simplement une impression sur la sortie standard pour dire qu'un message a été reçu (sans essayer encore
-        // de consulter le contenu du message)
         receiveSession = connect.createSession(false,javax.jms.Session.AUTO_ACKNOWLEDGE);
         javax.jms.MessageConsumer qReceiver = receiveSession.createConsumer(queue);
         return qReceiver;
     }
 
     public void start(javax.jms.MessageConsumer qReceiver) throws JMSException {
-        // 4 Création de messages et leur envoi dans la file d'attente, à l'aide de l'application
-        // d'administration Web
         qReceiver.setMessageListener(this);
         connect.start();
     }
