@@ -46,7 +46,6 @@ namespace RoutingServer
 
 
             Console.WriteLine("Message sent, check ActiveMQ web interface to confirm.");
-            //Console.ReadLine();
 
             // Don't forget to close your session and connection when finished.
             session.Close();

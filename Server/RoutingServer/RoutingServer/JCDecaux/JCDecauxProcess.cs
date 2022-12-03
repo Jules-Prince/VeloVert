@@ -109,7 +109,6 @@ namespace RoutingServer
                 Console.WriteLine("Longitude : " + r.position.longitude);
                 Console.WriteLine("");
             }
-            Console.ReadLine();
         }
 
         public void printJCDevauxCoordinate()

@@ -60,7 +60,6 @@ namespace RoutingServer
             Console.WriteLine("B longitude : " + OSMCoordinateB.longitude);
             Console.WriteLine("B latitude : " + OSMCoordinateB.latitude);
             Console.WriteLine("B city : " + OSMCoordinateB.city);
-            Console.ReadLine();
         }
     }
 }
