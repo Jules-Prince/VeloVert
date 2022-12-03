@@ -1,6 +1,9 @@
 import com.soap.ws.client.generated.INavigationveloserviceSOAP;
 import com.soap.ws.client.generated.NavigationveloserviceSOAP;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -62,7 +65,53 @@ public class Client implements javax.jms.MessageListener{
     }
 
     @Override
-    public void onMessage(Message message) {
-        System.out.println("Le message : " + message);
+    public void onMessage(Message aMessage) {
+        try
+        {
+            if (aMessage instanceof javax.jms.TextMessage)
+            {
+                javax.jms.TextMessage textMessage = (javax.jms.TextMessage) aMessage;
+
+                // This handler reads a single String from the
+                // message and prints it to the standard output.
+                try
+                {
+                    String string = textMessage.getText();
+                    System.out.println( string );
+
+
+                    JSONObject obj = null;
+                    try {
+                        obj = new JSONObject(string);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        String latitude = obj.getString("latitude");
+                        String longitude = obj.getString("longitude");
+
+                        System.out.println("Latitude : " + latitude);
+                        System.out.println("Longitude : " + longitude);
+                        System.out.println();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                catch (javax.jms.JMSException jmse)
+                {
+                    jmse.printStackTrace();
+                }
+            }
+            else
+            {
+                System.out.println ("Warning: A message was discarded because it could not be processed " +
+                        "as a javax.jms.TextMessage.");
+            }
+
+        }
+        catch (java.lang.RuntimeException rte)
+        {
+            rte.printStackTrace();
+        }
     }
 }

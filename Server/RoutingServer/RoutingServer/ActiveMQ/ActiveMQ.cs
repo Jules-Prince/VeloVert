@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Apache.NMS;
 using Apache.NMS.ActiveMQ;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace RoutingServer
 {
@@ -40,7 +42,23 @@ namespace RoutingServer
             //producer.Send(message);
 
             foreach(Position position in positions.step) {
-                IObjectMessage message = session.CreateObjectMessage(position);
+                
+                var p = new Position
+                {
+                    latitude= position.latitude,
+                    longitude= position.longitude,
+                };
+
+                //string jsonString = JsonSerializer.Serialize(position);
+
+                string latitude = position.latitude.ToString();
+                string longitude = position.longitude.ToString();
+
+                string jsonData = @"{'latitude':'"+latitude+"','longitude':'"+longitude+"'}";
+
+
+                ITextMessage message = session.CreateTextMessage(jsonData);
+
                 producer.Send(message);
             }
 
