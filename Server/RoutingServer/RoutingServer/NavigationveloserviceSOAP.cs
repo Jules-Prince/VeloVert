@@ -12,8 +12,7 @@ namespace RoutingServer
 
     public class NavigationveloserviceSOAP : INavigationveloserviceSOAP
     {
-        [return: XmlElement("Chemin", Form = XmlSchemaForm.Unqualified)]
-        public Guid getCheminAVelo([XmlElement(Form = XmlSchemaForm.Unqualified)] string Depart, [XmlElement(Form = XmlSchemaForm.Unqualified)] string Arrivee)
+        public string getCheminAVelo(string Depart, string Arrivee)
         {
             /**
              * 1. Calls OpenStreetMap to retrieve information about the
@@ -61,7 +60,7 @@ namespace RoutingServer
             ActiveMQ activeMQ = new ActiveMQ();
             activeMQ.producer(positions, guid);
 
-            return guid;
+            return guid.ToString();
         }
     }
 }

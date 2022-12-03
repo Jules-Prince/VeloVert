@@ -14,6 +14,6 @@ namespace RoutingServer
     {
 
         [OperationContract]
-        Guid getCheminAVelo([System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)] string Depart, [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)] string Arrivee);
+        string getCheminAVelo(string Depart, string Arrivee);
     }
 }
