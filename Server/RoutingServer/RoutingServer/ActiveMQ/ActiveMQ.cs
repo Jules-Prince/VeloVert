@@ -67,6 +67,7 @@ namespace RoutingServer
             Console.WriteLine("Message sent, check ActiveMQ web interface to confirm.");
 
             // Don't forget to close your session and connection when finished.
+            producer.Close();
             session.Close();
             connection.Close();
         }

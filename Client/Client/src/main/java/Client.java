@@ -68,30 +68,32 @@ public class Client implements javax.jms.MessageListener{
         NavigationveloserviceSOAP navigationveloserviceSOAP = new NavigationveloserviceSOAP();
         INavigationveloserviceSOAP n = navigationveloserviceSOAP.getBasicHttpBindingINavigationveloserviceSOAP();
 
-
-        System.out.print("D'où partez vous ? : ");
-        String depart = scanner.nextLine();
-        System.out.print("Où allez vous ? : ");
-        String arrivee = scanner.nextLine();
-        System.out.println();
-
-
-        //String myQueue = n.getCheminAVelo("33 Rue Edouard Nieuport, 69008 Lyon", "12 Bd Fernand Bonnefoy, 13010 Marseille");
-        String myQueue = n.getCheminAVelo(depart, arrivee);
-
-        System.out.println("myIdQueue : " + myQueue);
-        System.out.println();
+        while(true) {
+            System.out.print("D'où partez vous ? : ");
+            String depart = scanner.nextLine();
+            System.out.print("Où allez vous ? : ");
+            String arrivee = scanner.nextLine();
+            System.out.println();
 
 
-        Client client = new Client();
-        //1
-        client.factory("user", "user", DEFAULT_BROKER_NAME);
-        //2
-        javax.jms.Queue queue = client.queueBuild(myQueue);
-        //3
-        MessageConsumer qReceiver = client.conommateur(queue);
-        //4
-        client.start(qReceiver);
+            //String myQueue = n.getCheminAVelo("33 Rue Edouard Nieuport, 69008 Lyon", "12 Bd Fernand Bonnefoy, 13010 Marseille");
+            String myQueue = n.getCheminAVelo(depart, arrivee);
+
+            System.out.println("myIdQueue : " + myQueue);
+            System.out.println();
+
+            if (!myQueue.equals("Unknow city")) {
+                Client client = new Client();
+                //1
+                client.factory("user", "user", DEFAULT_BROKER_NAME);
+                //2
+                javax.jms.Queue queue = client.queueBuild(myQueue);
+                //3
+                MessageConsumer qReceiver = client.conommateur(queue);
+                //4
+                client.start(qReceiver);
+            }
+        }
     }
 
     @Override
