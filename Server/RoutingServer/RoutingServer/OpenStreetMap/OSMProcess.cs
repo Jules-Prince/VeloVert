@@ -23,12 +23,17 @@ namespace RoutingServer
             positionB = new Position();
         }
 
-        public void run(string adressA, string adressB)
+        public Boolean run(string adressA, string adressB)
         {
             string urlAPI = "https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf624857ddfd522faa498cb4d1d74518230dff&text=";
 
             Root rootA = buildDeserializedClass(urlAPI, adressA);
             Root rootB = buildDeserializedClass(urlAPI, adressB);
+
+            if(rootA.features.Count == 0 || rootB.features.Count == 0)
+            {
+                return false;
+            }
 
             // Coordinate A
             OSMCoordinateA.city = rootA.features[0].properties.locality;
@@ -43,6 +48,8 @@ namespace RoutingServer
             OSMCoordinateB.latitude = rootB.features[0].geometry.coordinates[1];
             positionB.longitude = OSMCoordinateB.longitude;
             positionB.latitude = OSMCoordinateB.latitude;
+
+            return true;
         }
 
         private Root buildDeserializedClass(string urlAPI, string param)

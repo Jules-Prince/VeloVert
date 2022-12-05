@@ -52,6 +52,8 @@ namespace RoutingServer
     {
         public double latitude { get; set; }
         public double longitude { get; set; }
+
+        public string type { get; set; }
     }
 
     public class Engine

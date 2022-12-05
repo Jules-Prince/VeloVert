@@ -53,6 +53,7 @@ namespace RoutingServer
             string url = urlAPI + param;
             HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync(url);
+
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStringAsync();
         }

@@ -14,13 +14,25 @@ namespace RoutingServer
     {
         public string getCheminAVelo(string Depart, string Arrivee)
         {
+            Console.WriteLine("\n\n=======================================================\n\tNEW REQUEST\n");
+            Console.WriteLine($"Depart : {Depart} \nArrivee : {Arrivee}");
+            Console.WriteLine("\n[ 1 ] Calls OpenStreetMap to retrieve information about the given address");
+            OSMProcess osmProcess = new OSMProcess();
+            JCDecauxProcess jCDecauxProcess = new JCDecauxProcess();
+            ActiveMQ activeMQ = new ActiveMQ();
+
             /**
              * 1. Calls OpenStreetMap to retrieve information about the
              * given address.
              */
 
-            OSMProcess osmProcess = new OSMProcess();
-            osmProcess.run(Depart, Arrivee);
+            Boolean address_found = false;
+            address_found = osmProcess.run(Depart, Arrivee);
+            if(address_found == false)
+            {
+                Console.WriteLine("Target | ",Depart," | or | ", Arrivee," | Unknow");
+                return("Unknow city");
+            }
             osmProcess.printOSMCoordiante();
 
 
@@ -29,6 +41,7 @@ namespace RoutingServer
              * closest one from the origin with available bikes, and the
              * closest from the destination with places to drop the bike.
              */
+            Console.WriteLine("\n [ 2 ] Calls JCDecaux to retrieve the stations and find");
             string cityA = osmProcess.OSMCoordinateA.city;
             double latitudeA = osmProcess.OSMCoordinateA.latitude;
             double longitudeA = osmProcess.OSMCoordinateA.longitude;
@@ -37,7 +50,7 @@ namespace RoutingServer
             double latitudeB = osmProcess.OSMCoordinateB.latitude;
             double longitudeB = osmProcess.OSMCoordinateB.longitude;
 
-            JCDecauxProcess jCDecauxProcess = new JCDecauxProcess();
+            
             jCDecauxProcess.run(cityA, latitudeA, longitudeA, cityB, latitudeB, longitudeB);
             jCDecauxProcess.printJCDevauxCoordinate();
 
@@ -46,18 +59,18 @@ namespace RoutingServer
              * OpenStreetMap for 3 itineraries: Origin to Station1,
              * Station1 to Station2, Station2 to Destination
              */
-
+            Console.WriteLine("\n[ 3 ] calls OpenStreetMap for 3 itineraries");
             //https://api.openrouteservice.org/v2/directions/driving-car?api_key=your-api-key&start=8.681495,49.41461&end=8.687872,49.420318
             DirectionProcess directionProcess = new DirectionProcess();
             Positions positions = directionProcess.run(osmProcess.positionA, jCDecauxProcess.positionA, jCDecauxProcess.positionB, osmProcess.positionB);
 
 
             /**
-             * ActiveMQ
+             * 4.ActiveMQ
              */
 
+            Console.WriteLine("\n[ 4 ] ActiveMQ");
             Guid guid = Guid.NewGuid();
-            ActiveMQ activeMQ = new ActiveMQ();
             activeMQ.producer(positions, guid);
 
             return guid.ToString();

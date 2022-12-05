@@ -41,12 +41,13 @@ namespace RoutingServer
             //ITextMessage message = session.CreateTextMessage("Hello World 2");
             //producer.Send(message);
 
-            foreach(Position position in positions.step) {
-                
+            foreach (Position position in positions.step)
+            {
+
                 var p = new Position
                 {
-                    latitude= position.latitude,
-                    longitude= position.longitude,
+                    latitude = position.latitude,
+                    longitude = position.longitude,
                 };
 
                 //string jsonString = JsonSerializer.Serialize(position);
@@ -54,7 +55,7 @@ namespace RoutingServer
                 string latitude = position.latitude.ToString();
                 string longitude = position.longitude.ToString();
 
-                string jsonData = @"{'latitude':'"+latitude+"','longitude':'"+longitude+"'}";
+                string jsonData = @"{'latitude':'" + latitude + "','longitude':'" + longitude + "'}";
 
 
                 ITextMessage message = session.CreateTextMessage(jsonData);
