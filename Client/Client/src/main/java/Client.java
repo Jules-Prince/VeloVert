@@ -88,7 +88,7 @@ public class Client implements javax.jms.MessageListener{
             System.out.println("myIdQueue : " + myQueue);
             System.out.println();
 
-            if (!myQueue.equals(ANSI_RED + "Unknow city" + ANSI_RESET)) {
+            if (!myQueue.equals("Unknow city") && !myQueue.equals("No station")) {
                 Client client = new Client();
                 //1
                 client.factory("user", "user", DEFAULT_BROKER_NAME);

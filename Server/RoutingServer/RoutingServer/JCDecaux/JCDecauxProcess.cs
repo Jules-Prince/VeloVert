@@ -21,7 +21,7 @@ namespace RoutingServer
             this.positionB = new Position();
         }
 
-        public void run(string cityA, double latitudeA, double longitudeA, string cityB, double latitudeB, double longitudeB)
+        public Boolean run(string cityA, double latitudeA, double longitudeA, string cityB, double latitudeB, double longitudeB)
         {
             string urlAPI = "https://api.jcdecaux.com/vls/v3/stations?apiKey=56c5d019b4d68c1bd60800a1345b299bc7bb95b0&contract=";
 
@@ -32,10 +32,14 @@ namespace RoutingServer
             List<RootJCDecauxItem> rootB = buildDeserializedClass(urlAPI, cityB);
             //printLatitudeLongitudeStation(rootB);
 
+            if (rootA.Count == 0 || rootB.Count == 0)
+            {
+                return false;
+            }
+
             // 2 Chercher la station la plus proche avec les coordonnées gps
             RootJCDecauxItem rootJCDecauxDataA = findStationMoreClosed(rootA, longitudeA, latitudeA);
             RootJCDecauxItem rootJCDecauxDataB = findStationMoreClosed(rootB, longitudeB, latitudeB);
-
 
             // 3 J'enregistre les coordonnées dans la classe adéquate.
             this.positionA.latitude = rootJCDecauxDataA.position.latitude;
@@ -43,6 +47,8 @@ namespace RoutingServer
 
             this.positionB.latitude = rootJCDecauxDataB.position.latitude;
             this.positionB.longitude = rootJCDecauxDataB.position.longitude;
+
+            return true;
         }
 
         private RootJCDecauxItem findStationMoreClosed(List<RootJCDecauxItem> root, double longitude, double latitude)
@@ -84,9 +90,16 @@ namespace RoutingServer
             ApiManager aPIManager = new ApiManager();
 
             //string result = aPIManager.APICall(aPIManager.formatUrl(urlAPI), param).Result;
-            MyProxy.RequestProxyClient requestProxy = new MyProxy.RequestProxyClient();
-            JCDecauxItem result = requestProxy.JCDecauxRequest(param);
-            return this.convert(result.root);
+            try
+            {
+                MyProxy.RequestProxyClient requestProxy = new MyProxy.RequestProxyClient();
+                JCDecauxItem result = requestProxy.JCDecauxRequest(param);
+                return this.convert(result.root);
+            }
+            catch (Exception ex)
+            {
+                return new List<RootJCDecauxItem>();
+            }
         }
 
         private List<RootJCDecauxItem> convert(RoutingServer.MyProxy.RootJCDecauxItem[] list)

@@ -30,7 +30,7 @@ namespace RoutingServer
             address_found = osmProcess.run(Depart, Arrivee);
             if(address_found == false)
             {
-                Console.WriteLine("Target | ",Depart," | or | ", Arrivee," | Unknow");
+                Console.WriteLine($"Target | {Depart} | or | {Arrivee} | Unknow");
                 return("Unknow city");
             }
             osmProcess.printOSMCoordiante();
@@ -50,8 +50,13 @@ namespace RoutingServer
             double latitudeB = osmProcess.OSMCoordinateB.latitude;
             double longitudeB = osmProcess.OSMCoordinateB.longitude;
 
-            
-            jCDecauxProcess.run(cityA, latitudeA, longitudeA, cityB, latitudeB, longitudeB);
+            Boolean station_found = false;
+            station_found = jCDecauxProcess.run(cityA, latitudeA, longitudeA, cityB, latitudeB, longitudeB);
+            if (station_found == false)
+            {
+                Console.WriteLine("Target | ", Depart, " | or | ", Arrivee, " | No station");
+                return ("No station");
+            }
             jCDecauxProcess.printJCDevauxCoordinate();
 
             /*
