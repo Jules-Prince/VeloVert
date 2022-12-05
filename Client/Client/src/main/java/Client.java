@@ -1,7 +1,6 @@
 import com.soap.ws.client.generated.INavigationveloserviceSOAP;
 import com.soap.ws.client.generated.NavigationveloserviceSOAP;
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,11 +8,15 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.naming.InitialContext;
+import java.util.Scanner;
 
 public class Client implements javax.jms.MessageListener{
     private static final String DEFAULT_BROKER_NAME = "tcp://localhost:61616";
     private static final String DEFAULT_PASSWORD = "password";
     private static final int    MESSAGE_LIFESPAN = 1800000;  // milliseconds (30 minutes)
+
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_GREEN = "\u001B[32m";
 
     private javax.jms.Connection connect = null;
     private javax.jms.Session sendSession = null;
@@ -46,11 +49,38 @@ public class Client implements javax.jms.MessageListener{
     }
 
     public static void main(String[] args) throws JMSException {
-        System.out.println("Hello World! we are going to test a SOAP client written in Java");
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("\n" + ANSI_GREEN +
+                "    //   ) )                                                  //   ) )\n" +
+                "   //            __        ___        ___         __         //___/ /     ( )     / ___      ___\n" +
+                "  //  ____     //  ) )   //___) )   //___) )   //   ) )     / __  (      / /     //\\ \\     //___) )\n" +
+                " //    / /    //        //         //         //   / /     //    ) )    / /     //  \\ \\   //\n" +
+                "((____/ /    //        ((____     ((____     //   / /     //____/ /    / /     //    \\ \\ ((____" + ANSI_RESET);
+
+        System.out.println();
+        System.out.println();
+
+        System.out.println("Hello dear customer, welcome to the Green Bike application. \n" +
+                "Enter the destination of departure and arrival to have your journey by bike. \nThis application will allow you to get to the nearest station. ");
+        System.out.println();
+
         NavigationveloserviceSOAP navigationveloserviceSOAP = new NavigationveloserviceSOAP();
         INavigationveloserviceSOAP n = navigationveloserviceSOAP.getBasicHttpBindingINavigationveloserviceSOAP();
-        String myQueue = n.getCheminAVelo("33 Rue Edouard Nieuport, 69008 Lyon", "12 Bd Fernand Bonnefoy, 13010 Marseille");
-        System.out.println("myQueue : " + myQueue);
+
+
+        System.out.print("D'où partez vous ? : ");
+        String depart = scanner.nextLine();
+        System.out.print("Où allez vous ? : ");
+        String arrivee = scanner.nextLine();
+        System.out.println();
+
+
+        //String myQueue = n.getCheminAVelo("33 Rue Edouard Nieuport, 69008 Lyon", "12 Bd Fernand Bonnefoy, 13010 Marseille");
+        String myQueue = n.getCheminAVelo(depart, arrivee);
+
+        System.out.println("myIdQueue : " + myQueue);
+        System.out.println();
 
 
         Client client = new Client();

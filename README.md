@@ -23,6 +23,7 @@ A la ligne 93 / 94, le message de retour et parsé pour obtenir la latitude et l
 
 Pour le moment le client recoit toute les données d'un coup. 
 Evolution : Avoir un bouton sur l'interface pour prendre le chemin packet par packet. 
+Faire un script ou l'ajouter dans le script des les serveurs pour son execution
 
 ## Serveur
 
