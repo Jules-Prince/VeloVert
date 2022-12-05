@@ -18,16 +18,16 @@ namespace RoutingServer
             Positions positions= new Positions();
             List<Position> myStep = new List<Position>();
 
-            myStep = addPosition(myStep, rootDirectionAB.features[0].geometry.coordinates);
-            myStep = addPosition(myStep, rootDirectionBC.features[0].geometry.coordinates);
-            myStep = addPosition(myStep, rootDirectionCD.features[0].geometry.coordinates);
+            myStep = addPosition(myStep, rootDirectionAB.features[0].geometry.coordinates, TransportType.Walk);
+            myStep = addPosition(myStep, rootDirectionBC.features[0].geometry.coordinates, TransportType.Bike);
+            myStep = addPosition(myStep, rootDirectionCD.features[0].geometry.coordinates, TransportType.Walk);
 
             positions.step = myStep;
 
             return positions;
         }
 
-        private List<Position> addPosition(List<Position> positions, List<List<double>> coordinateList)
+        private List<Position> addPosition(List<Position> positions, List<List<double>> coordinateList, TransportType transportType)
         {
             List<Position> p = positions;
 
@@ -37,10 +37,23 @@ namespace RoutingServer
                 position.latitude = coordinates[0];
                 position.longitude = coordinates[1];
 
+                if(transportType == TransportType.Bike)
+                {
+                    position.type = "bike";
+                }else if(transportType == TransportType.Walk) {
+                    position.type = "walk";
+                }
+
                 p.Add(position);
             }
 
             return p;
+        }
+
+        private enum TransportType
+        {
+            Bike = 0,
+            Walk = 1
         }
 
         public RootDirection findTheWay(Position positionA, Position positionB)

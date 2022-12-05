@@ -121,9 +121,11 @@ public class Client implements javax.jms.MessageListener{
                     try {
                         String latitude = obj.getString("latitude");
                         String longitude = obj.getString("longitude");
+                        String transportType = obj.getString("tansportType");
 
                         System.out.println("Latitude : " + latitude);
                         System.out.println("Longitude : " + longitude);
+                        System.out.println("Transport Type : " + transportType);
                         System.out.println();
                     } catch (JSONException e) {
                         e.printStackTrace();
