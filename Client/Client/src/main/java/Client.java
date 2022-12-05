@@ -12,11 +12,10 @@ import java.util.Scanner;
 
 public class Client implements javax.jms.MessageListener{
     private static final String DEFAULT_BROKER_NAME = "tcp://localhost:61616";
-    private static final String DEFAULT_PASSWORD = "password";
-    private static final int    MESSAGE_LIFESPAN = 1800000;  // milliseconds (30 minutes)
 
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_RED = "\u001B[31m";
 
     private javax.jms.Connection connect = null;
     private javax.jms.Session sendSession = null;
@@ -65,8 +64,15 @@ public class Client implements javax.jms.MessageListener{
                 "Enter the destination of departure and arrival to have your journey by bike. \nThis application will allow you to get to the nearest station. ");
         System.out.println();
 
-        NavigationveloserviceSOAP navigationveloserviceSOAP = new NavigationveloserviceSOAP();
-        INavigationveloserviceSOAP n = navigationveloserviceSOAP.getBasicHttpBindingINavigationveloserviceSOAP();
+
+        INavigationveloserviceSOAP n = null;
+        try{
+            NavigationveloserviceSOAP navigationveloserviceSOAP = new NavigationveloserviceSOAP();
+            n = navigationveloserviceSOAP.getBasicHttpBindingINavigationveloserviceSOAP();
+        }catch (Exception e){
+            System.out.println(ANSI_RED + "ERROR : Unable to connect to the server" + ANSI_RESET);
+            System.exit(0);
+        }
 
         while(true) {
             System.out.print("D'où partez vous ? : ");
@@ -82,7 +88,7 @@ public class Client implements javax.jms.MessageListener{
             System.out.println("myIdQueue : " + myQueue);
             System.out.println();
 
-            if (!myQueue.equals("Unknow city")) {
+            if (!myQueue.equals(ANSI_RED + "Unknow city" + ANSI_RESET)) {
                 Client client = new Client();
                 //1
                 client.factory("user", "user", DEFAULT_BROKER_NAME);
