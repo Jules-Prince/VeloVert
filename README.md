@@ -14,10 +14,13 @@ Si il n'y a pas de place dans la station d'arrivé, alors elle est retiré de la
 
 # Gestion des erreurs.
 
-Si le client met n'importe quoi, le routing server renvois un string avec "unknow city"<br/>
-Si le routing server ne parvient pas à trouvé de station de vélo dans l'une des villes <br/>
-renseigné par le client, il renvoit une erreur "No station".<br/>
-Si le proxy rencontre des porblemes, le routing serveur renvoie une erreur "No station"<br/>
+Pour les erreurs, de maniere gloable, cela fonctionne avec le même principe.<br/>
+Le client recoit un id pour se connecter à ActiveMQ. Un fois connecté, il recoit le message d'erreur. <br/>
+
+Si le client met n'importe quoi, le routing server renvois "Unknown addresses :" avec le ou les adresses inconnus <br/>
+Si le routing server ne parvient pas à trouvé de station de vélo dans l'une des villes renseigné par le client, il renvoit une erreur "No station in :" avec la ou les villes n'ayant pas de station.<br/>
+Si le proxy rencontre des porblemes, le routing serveur renvoie une erreur "No station in : " avec le nom des 2 villes <br/>
+Si le routing server et en defaut, alors le client catch une erreur de connexion.
 
 # Procedure d'execution 
 
