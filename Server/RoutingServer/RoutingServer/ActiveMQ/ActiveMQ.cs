@@ -13,8 +13,10 @@ namespace RoutingServer
 {
     public class ActiveMQ
     {
-        public void producer(Positions positions, Guid guid)
+        public Guid producer(Positions positions)
         {
+            Guid guid = Guid.NewGuid();
+
             // Create a Connection Factory.
             Uri connecturi = new Uri("activemq:tcp://localhost:61616");
             ConnectionFactory connectionFactory = new ConnectionFactory(connecturi);
@@ -62,6 +64,8 @@ namespace RoutingServer
             producer.Close();
             session.Close();
             connection.Close();
+
+            return guid;
         }
     }
 }
