@@ -93,6 +93,7 @@ public class Client implements javax.jms.MessageListener{
      */
     public static void main(String[] args) throws JMSException {
         Scanner scanner = new Scanner(System.in);
+        boolean routingServeIsOn = false;
 
         title();
 
@@ -100,12 +101,22 @@ public class Client implements javax.jms.MessageListener{
         // [ 1 ] Attempt to connect to our routing server
         // ========================================
         INavigationveloserviceSOAP n = null;
-        try{
-            NavigationveloserviceSOAP navigationveloserviceSOAP = new NavigationveloserviceSOAP();
-            n = navigationveloserviceSOAP.getBasicHttpBindingINavigationveloserviceSOAP();
-        }catch (Exception e){
-            System.out.println(ANSI_RED + "ERROR : Unable to connect to the server" + ANSI_RESET);
-            System.exit(0);
+
+        while(!routingServeIsOn) {
+            try {
+                NavigationveloserviceSOAP navigationveloserviceSOAP = new NavigationveloserviceSOAP();
+                n = navigationveloserviceSOAP.getBasicHttpBindingINavigationveloserviceSOAP();
+                routingServeIsOn = true;
+                System.out.println("[ "+ANSI_GREEN+ "Connected"+ANSI_RESET+" ] to the routing server.");
+            } catch (Exception e) {
+                System.out.println(ANSI_RED + "ERROR : Unable to connect to the server" + ANSI_RESET);
+            }
+
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         // ========================================
