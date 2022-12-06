@@ -85,7 +85,7 @@ namespace RoutingServer
 
         private List<RootJCDecauxItem> deletingInvalidStations(Direction direction, List<RootJCDecauxItem> root)
         {
-            List<RootJCDecauxItem> newList = new List<RootJCDecauxItem>(root);
+            List<RootJCDecauxItem> newList = new List<RootJCDecauxItem>();
 
             foreach(RootJCDecauxItem rootJC in root)
             {

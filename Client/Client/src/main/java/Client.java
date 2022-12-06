@@ -10,6 +10,7 @@ import javax.jms.MessageConsumer;
 import javax.naming.InitialContext;
 import java.util.Scanner;
 
+
 public class Client implements javax.jms.MessageListener{
     private static final String DEFAULT_BROKER_NAME = "tcp://localhost:61616";
 
@@ -75,6 +76,8 @@ public class Client implements javax.jms.MessageListener{
         }
 
         while(true) {
+            System.out.flush();
+            System.out.println("\n");
             System.out.print("D'où partez vous ? : ");
             String depart = scanner.nextLine();
             System.out.print("Où allez vous ? : ");
