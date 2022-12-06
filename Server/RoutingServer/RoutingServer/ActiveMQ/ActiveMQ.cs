@@ -13,8 +13,22 @@ namespace RoutingServer
 {
     public class ActiveMQ
     {
-        public void producer(Positions positions, Guid guid)
+        /**
+         * This class is responsible for producing a message in activeMQ
+         */
+
+        /**
+         * This method puts in activeMQ the list of stops (longitude + latitude), 
+         * as well as the type of transport (bicycle or on foot).
+         * 
+         * This method creates a tail name with a GUID as name. 
+         * It returns GUID, and this will be the return element to the client who made the request.
+         * He will then be able to connect to the queue to collect the data related to his route choice. 
+         */
+        public Guid producer(Positions positions)
         {
+            Guid guid = Guid.NewGuid(); // Produces a GUID
+
             // Create a Connection Factory.
             Uri connecturi = new Uri("activemq:tcp://localhost:61616");
             ConnectionFactory connectionFactory = new ConnectionFactory(connecturi);
@@ -38,18 +52,14 @@ namespace RoutingServer
 
 
             // Finally, to send messages:
-            //ITextMessage message = session.CreateTextMessage("Hello World 2");
-            //producer.Send(message);
-
             foreach (Position position in positions.step)
             {
                 string latitude = position.latitude.ToString();
                 string longitude = position.longitude.ToString();
                 string transportType = position.type.ToString();
 
+                // Builds the JSON
                 string jsonData = @"{'latitude':'" + latitude + "','longitude':'" + longitude + "','tansportType':'" + transportType + "'}";
-
-
                 ITextMessage message = session.CreateTextMessage(jsonData);
 
                 producer.Send(message);
@@ -58,10 +68,12 @@ namespace RoutingServer
 
             Console.WriteLine("Message sent, check ActiveMQ web interface to confirm.");
 
-            // Don't forget to close your session and connection when finished.
+            // Close your session, connection and producer when finished.
             producer.Close();
             session.Close();
             connection.Close();
+
+            return guid;
         }
     }
 }

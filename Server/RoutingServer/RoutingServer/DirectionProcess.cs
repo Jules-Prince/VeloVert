@@ -9,6 +9,16 @@ namespace RoutingServer
 {
     internal class DirectionProcess
     {
+        /**
+         * This class allows to draw the initinary between all points. 
+         * From the starting point to the nearest station. 
+         * From the nearest station to the arrival station. 
+         * From the arrival station to the arrival place. 
+         */
+
+        /**
+         * This method runs the process of building the itinerary. 
+         */
         public Positions run(Position positionA, Position positionB, Position positionC, Position positionD)
         {
             RootDirection rootDirectionAB = findTheWay(positionA, positionB);
@@ -27,6 +37,14 @@ namespace RoutingServer
             return positions;
         }
 
+        /**
+         * From the return object, I retrieve useful information, 
+         * such as the latitude and length of all stages of the route. 
+         * 
+         * This method also marks the type of transportation, 
+         * if it is by bike or by foot. This allows to differentiate 
+         * the type of transport in the stages. 
+         */
         private List<Position> addPosition(List<Position> positions, List<List<double>> coordinateList, TransportType transportType)
         {
             List<Position> p = positions;
@@ -56,6 +74,10 @@ namespace RoutingServer
             Walk = 1
         }
 
+        /**
+         * This method returns a RootDirection. 
+         * This object contains all the steps of the itinerary between point A and point b.
+         */
         public RootDirection findTheWay(Position positionA, Position positionB)
         {
             ApiManager aPIManager = new ApiManager();

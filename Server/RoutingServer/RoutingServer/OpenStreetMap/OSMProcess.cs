@@ -9,6 +9,11 @@ namespace RoutingServer
 {
     public class OSMProcess
     {
+        /**
+         * This class treats the request to the open street map api concerning the retrieval of information of a city. 
+         * This information includes latitude, longitude and name of the city. 
+         */
+
         public OSMCoordinate OSMCoordinateA { get; set; }
         public OSMCoordinate OSMCoordinateB { get; set; }
 
@@ -23,6 +28,10 @@ namespace RoutingServer
             positionB = new Position();
         }
 
+        /**
+         * This function runs the process. It returns a boolean. 
+         * This boolean allows us to know if the query has succeeded in finding a city. 
+         */
         public Boolean run(string adressA, string adressB)
         {
             string urlAPI = "https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf624857ddfd522faa498cb4d1d74518230dff&text=";
@@ -52,6 +61,12 @@ namespace RoutingServer
             return true;
         }
 
+        /**
+         * This method calls the open street map api. 
+         * Deserialize the JSON return in an object, and return it. 
+         * From this object, we will have all the information we need 
+         * to process the information we consider useful.
+         */
         private Root buildDeserializedClass(string urlAPI, string param)
         {
             ApiManager aPIManager = new ApiManager();
@@ -59,6 +74,10 @@ namespace RoutingServer
             return JsonConvert.DeserializeObject<Root>(result);
         }
 
+        /**
+         * This method allows you to display information about the city. 
+         * Longitude latitude and city name.
+         */
         public void printOSMCoordiante()
         {
             Console.WriteLine("A longitude : " + OSMCoordinateA.longitude);

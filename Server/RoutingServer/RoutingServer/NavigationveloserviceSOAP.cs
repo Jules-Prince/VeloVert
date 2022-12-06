@@ -75,8 +75,7 @@ namespace RoutingServer
              */
 
             Console.WriteLine("\n[ 4 ] ActiveMQ");
-            Guid guid = Guid.NewGuid();
-            activeMQ.producer(positions, guid);
+            Guid guid = activeMQ.producer(positions);
 
             return guid.ToString();
         }
