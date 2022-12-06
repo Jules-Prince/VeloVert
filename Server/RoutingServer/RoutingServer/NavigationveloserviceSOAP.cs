@@ -14,6 +14,8 @@ namespace RoutingServer
     {
         public string getCheminAVelo(string Depart, string Arrivee)
         {
+            Guid guid;
+
             Console.WriteLine("\n\n=======================================================\n\tNEW REQUEST\n");
             Console.WriteLine($"Depart : {Depart} \nArrivee : {Arrivee}");
             Console.WriteLine("\n[ 1 ] Calls OpenStreetMap to retrieve information about the given address");
@@ -30,8 +32,9 @@ namespace RoutingServer
             address_found = osmProcess.run(Depart, Arrivee);
             if(address_found == false)
             {
-                Console.WriteLine($"Target | {Depart} | or | {Arrivee} | Unknow");
-                return("Unknow city");
+                Console.WriteLine(osmProcess.errorMessage);
+                guid = activeMQ.errorProducer(osmProcess.errorMessage);
+                return guid.ToString();
             }
             osmProcess.printOSMCoordiante();
 
@@ -54,8 +57,9 @@ namespace RoutingServer
             station_found = jCDecauxProcess.run(cityA, latitudeA, longitudeA, cityB, latitudeB, longitudeB);
             if (station_found == false)
             {
-                Console.WriteLine("Target | ", Depart, " | or | ", Arrivee, " | No station");
-                return ("No station");
+                Console.WriteLine(jCDecauxProcess.errorMessage);
+                guid = activeMQ.errorProducer(jCDecauxProcess.errorMessage);
+                return guid.ToString();
             }
             jCDecauxProcess.printJCDevauxCoordinate();
 
@@ -75,7 +79,7 @@ namespace RoutingServer
              */
 
             Console.WriteLine("\n[ 4 ] ActiveMQ");
-            Guid guid = activeMQ.producer(positions);
+            guid = activeMQ.producer(positions);
 
             return guid.ToString();
         }

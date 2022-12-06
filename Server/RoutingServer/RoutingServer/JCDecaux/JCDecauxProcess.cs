@@ -17,6 +17,7 @@ namespace RoutingServer
          */
         public Position positionA { set; get; } // Position of the closest station to A
         public Position positionB { set; get; } // Position of the closest station to B
+        public string errorMessage { set; get; }
 
         public JCDecauxProcess()
         {
@@ -36,8 +37,18 @@ namespace RoutingServer
             List<RootJCDecauxItem> rootA = buildDeserializedClass(urlAPI, cityA);
             List<RootJCDecauxItem> rootB = buildDeserializedClass(urlAPI, cityB);
 
-            if (rootA.Count == 0 || rootB.Count == 0)
+            // Error management
+            if (rootA.Count == 0 && rootB.Count == 0)
             {
+                this.errorMessage = "No station in : [ " + cityA + " ] and [ " + cityB + " ]";
+                return false;
+            }else if( rootA.Count == 0)
+            {
+                this.errorMessage = "No station in : [ " + cityA + " ]";
+                return false;
+            }else if( rootB.Count == 0)
+            {
+                this.errorMessage = "No station in : [ " + cityB + " ]";
                 return false;
             }
 
@@ -45,8 +56,20 @@ namespace RoutingServer
             RootJCDecauxItem rootJCDecauxDataA = findStationMoreClosed(rootA, longitudeA, latitudeA, Direction.Start);
             RootJCDecauxItem rootJCDecauxDataB = findStationMoreClosed(rootB, longitudeB, latitudeB, Direction.End);
 
-            if(rootJCDecauxDataA == null || rootJCDecauxDataB == null)
+            // Error management
+            if (rootJCDecauxDataA == null && rootJCDecauxDataB == null)
             {
+                this.errorMessage = "No station available in :  [ " + cityA + " ] and [ " + cityB + " ]";
+                return false;
+            }
+            else if (rootJCDecauxDataA == null)
+            {
+                this.errorMessage = "No station available in :  [ " + cityA + " ]";
+                return false;
+            }
+            else if (rootJCDecauxDataB == null)
+            {
+                this.errorMessage = "No station available in :  [ " + cityB + " ]";
                 return false;
             }
 

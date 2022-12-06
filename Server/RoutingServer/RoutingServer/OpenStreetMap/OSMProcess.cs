@@ -17,6 +17,8 @@ namespace RoutingServer
         public OSMCoordinate OSMCoordinateA { get; set; }
         public OSMCoordinate OSMCoordinateB { get; set; }
 
+        public string errorMessage { get; set; }
+
         public Position positionA { get; set; }
         public Position positionB { get; set; }
 
@@ -39,8 +41,18 @@ namespace RoutingServer
             Root rootA = buildDeserializedClass(urlAPI, adressA);
             Root rootB = buildDeserializedClass(urlAPI, adressB);
 
-            if(rootA.features.Count == 0 || rootB.features.Count == 0)
+            // Error management
+            if (rootA.features.Count == 0 && rootB.features.Count == 0)
             {
+                this.errorMessage = "Unknown addresses : [ " + adressA + " ] and [ " + adressB + " ]";
+                return false;
+            }else if(rootA.features.Count == 0)
+            {
+                this.errorMessage = "Unknown addresse : [ " + adressA + " ]";
+                return false;
+            }else if (rootB.features.Count == 0)
+            {
+                this.errorMessage = "Unknown addresse : [ " + adressB + " ]";
                 return false;
             }
 
