@@ -36,5 +36,6 @@ Pour exe ActiveMQ : apache-activemq-5.17.2/bin/activemq start<br/>
 
 ### Pour executer le front
 
+Avant de compiler, les serveurs doivent etre démarré. 
 Pour compiler le projet : mvn clean jaxws:wsimport<br/>
 Ouvrir le projet dans un IDE, Intellij de preference, puis run le projet. <br/>
