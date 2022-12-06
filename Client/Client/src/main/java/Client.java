@@ -13,6 +13,7 @@ import java.util.Scanner;
 public class Client implements javax.jms.MessageListener{
     private static final String DEFAULT_BROKER_NAME = "tcp://localhost:61616";
 
+    // Color for fun
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_RED = "\u001B[31m";
@@ -23,12 +24,29 @@ public class Client implements javax.jms.MessageListener{
     private javax.jms.MessageProducer sender = null;
     private static InitialContext context = null;
 
+    // ================================================
+    //             ActiveMQ Consumer
+    // ================================================
+
+    /**
+     * Create conection
+     * @param username
+     * @param password
+     * @param broker
+     * @throws JMSException
+     */
     public void factory(String username, String password, String broker) throws JMSException {
         javax.jms.ConnectionFactory factory;
         factory = new ActiveMQConnectionFactory(username, password, broker);
         connect = factory.createConnection (username, password);
     }
 
+    /**
+     * Connect to the queue with the id
+     * @param myQueueName
+     * @return
+     * @throws JMSException
+     */
     public javax.jms.Queue queueBuild(String myQueueName) throws JMSException {
 
         sendSession = connect.createSession(false,javax.jms.Session.AUTO_ACKNOWLEDGE);
@@ -36,22 +54,45 @@ public class Client implements javax.jms.MessageListener{
         return  queue;
     }
 
+    /**
+     * Created a consumer
+     * @param queue
+     * @return
+     * @throws JMSException
+     */
     public javax.jms.MessageConsumer conommateur(javax.jms.Queue queue) throws JMSException {
         receiveSession = connect.createSession(false,javax.jms.Session.AUTO_ACKNOWLEDGE);
         javax.jms.MessageConsumer qReceiver = receiveSession.createConsumer(queue);
         return qReceiver;
     }
 
+    /**
+     * Start the connection
+     * @param qReceiver
+     * @throws JMSException
+     */
     public void start(javax.jms.MessageConsumer qReceiver) throws JMSException {
         qReceiver.setMessageListener(this);
         connect.start();
     }
 
+    // ================================================
+    //                APPICATION
+    // ================================================
+
+    /**
+     * main
+     * @param args
+     * @throws JMSException
+     */
     public static void main(String[] args) throws JMSException {
         Scanner scanner = new Scanner(System.in);
 
         title();
 
+        // ========================================
+        // [ 1 ] Attempt to connect to our routing server
+        // ========================================
         INavigationveloserviceSOAP n = null;
         try{
             NavigationveloserviceSOAP navigationveloserviceSOAP = new NavigationveloserviceSOAP();
@@ -61,6 +102,9 @@ public class Client implements javax.jms.MessageListener{
             System.exit(0);
         }
 
+        // ========================================
+        // [ 2 ] Loop to ask for itinerary
+        // ========================================
         while(true) {
 
             bar();
@@ -68,6 +112,10 @@ public class Client implements javax.jms.MessageListener{
             boolean validAddress = false;
             String depart = "";
             String arrivee = "";
+
+            // ========================================
+            // [ 3 ] Recovering addresses
+            // ========================================
 
             while(!validAddress) {
                 System.out.print("D'où partez vous ? : ");
@@ -85,11 +133,19 @@ public class Client implements javax.jms.MessageListener{
                 }
             }
 
-            // Request
+            // ========================================
+            // [ 4 ] Request to our routing server
+            // ========================================
+
+            // Recovery of the connection id to AvctiveMQ
             String myQueue = n.getCheminAVelo(depart, arrivee);
 
             System.out.println("myIdQueue : [ "+ ANSI_GREEN + myQueue + ANSI_RESET +" ]");
             System.out.println();
+
+            // ========================================
+            // [ 5 ] Connaction to the ActiveMQ queue
+            // ========================================
 
             Client client = new Client();
             //1
@@ -101,6 +157,9 @@ public class Client implements javax.jms.MessageListener{
             //4
             client.start(qReceiver);
 
+            // ========================================
+            // [ 6 ] 5 seconds wait with the next request
+            // ========================================
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
@@ -109,6 +168,10 @@ public class Client implements javax.jms.MessageListener{
         }
     }
 
+    /**
+     * This method is called when a message is received from the queue.
+     * @param aMessage
+     */
     @Override
     public void onMessage(Message aMessage) {
         try
@@ -121,9 +184,11 @@ public class Client implements javax.jms.MessageListener{
                 // message and prints it to the standard output.
                 try
                 {
-                    String string = textMessage.getText();
-                    //System.out.println( string );
+                    // ===========================================
+                    // [ 1 ] JSON message retrieval
+                    // ===========================================
 
+                    String string = textMessage.getText();
                     JSONObject obj = null;
                     try {
                         obj = new JSONObject(string);
@@ -133,12 +198,19 @@ public class Client implements javax.jms.MessageListener{
 
                     boolean noErrorEncountered = false;
 
+                    // ===========================================
+                    // [ 2 ] If we have an error message, then we display it.
+                    // ===========================================
+
                     try {
                         String error = obj.getString("error");
                         System.out.println(ANSI_RED + "Error -------- : " + error + ANSI_RESET);
                     } catch (JSONException e) {
                         noErrorEncountered = true;
                     }
+                    // ===========================================
+                    // [ 3 ] If there is no error message, then the information of the received step is displayed.
+                    // ===========================================
 
                     if(noErrorEncountered) {
 
@@ -178,9 +250,13 @@ public class Client implements javax.jms.MessageListener{
     }
 
     // ===========================================
-    // https://patorjk.com/software/taag/#p=display&f=Electronic&t=Velo-Vert%0A---------
+    //                FUN
     // ===========================================
+    // https://patorjk.com/software/taag/#p=display&f=Electronic&t=Velo-Vert%0A---------
 
+    /**
+     * Title
+     */
     private static void title(){
         System.out.println();
         System.out.println();
@@ -205,6 +281,9 @@ public class Client implements javax.jms.MessageListener{
         System.out.println();
     }
 
+    /**
+     * Bar
+     */
     private static void bar(){
         System.out.println();
         System.out.println(ANSI_GREEN + " ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄         \n" +
