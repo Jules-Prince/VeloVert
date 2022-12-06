@@ -1,3 +1,8 @@
+# Etudiants
+
+Théophile Yvars
+Jules Prince
+
 # Fonctionnalité
 
 Nous possédons un serveur (routing server) qui est le point d'entré pour un client. 
