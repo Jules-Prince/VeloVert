@@ -1,0 +1,12 @@
+.parentStyles {
+    position: relative;
+}
+
+.logoStyle {
+    position: sticky;
+    left: 0;
+}
+
+.formStyle {
+    width: 50%;
+}
