@@ -29,7 +29,7 @@ Si le routing server et en defaut, alors le client catch une erreur de connexion
 RoutingServer + Proxy + ActiveMQ<br/>
 Le script run_proxy_activeMQ_rontingServer.bat permet de tout executer en même temps.<br/>
 
-Sinon, 
+Sinon, <br/>
 Pour exe le serveur : RoutingServer/bin/Debug/RoutingServer.exe<br/>
 Pour exe le proxy : Proxy/bin/Debug/Proxy.exe<br/>
 Pour exe ActiveMQ : apache-activemq-5.17.2/bin/activemq start<br/>
