@@ -26,6 +26,8 @@ Si activeMQ n'est pas en marche, alors le client en est informé. <br/>
 
 # Procedure d'execution 
 
+Decompresser active mq dans server<br/>
+
 ### Pour executer le back
 
 RoutingServer + Proxy + ActiveMQ<br/>
