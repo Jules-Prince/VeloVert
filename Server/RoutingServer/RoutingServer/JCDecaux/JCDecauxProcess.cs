@@ -107,7 +107,8 @@ namespace RoutingServer
 
             foreach(RootJCDecauxItem rootJC in root)
             {
-                if (rootJC.status.Equals("OPEN")){
+                if (rootJC.status.Equals("OPEN"))  // If the station is open
+                {
                     switch (direction)
                     {
                         case Direction.Start:
