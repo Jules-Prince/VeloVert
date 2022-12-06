@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace RoutingServer
 {
+    /**
+     * Here is stored all possible POJOs of the different requests made to the APIs. 
+     * This allows to deserialize the JSON received from the APIs, and to easily manipulate the data. 
+     * 
+     * https://json2csharp.com/
+     */
 
     public class Positions
     {
@@ -14,7 +20,6 @@ namespace RoutingServer
     }
 
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
-    // https://json2csharp.com/
     public class Root
     {
         public List<Feature2> features { get; set; }
