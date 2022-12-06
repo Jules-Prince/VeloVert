@@ -38,8 +38,13 @@ namespace RoutingServer
             }
 
             // 2 Chercher la station la plus proche avec les coordonnées gps
-            RootJCDecauxItem rootJCDecauxDataA = findStationMoreClosed(rootA, longitudeA, latitudeA);
-            RootJCDecauxItem rootJCDecauxDataB = findStationMoreClosed(rootB, longitudeB, latitudeB);
+            RootJCDecauxItem rootJCDecauxDataA = findStationMoreClosed(rootA, longitudeA, latitudeA, Direction.Start);
+            RootJCDecauxItem rootJCDecauxDataB = findStationMoreClosed(rootB, longitudeB, latitudeB, Direction.End);
+
+            if(rootJCDecauxDataA == null || rootJCDecauxDataB == null)
+            {
+                return false;
+            }
 
             // 3 J'enregistre les coordonnées dans la classe adéquate.
             this.positionA.latitude = rootJCDecauxDataA.position.latitude;
@@ -51,13 +56,15 @@ namespace RoutingServer
             return true;
         }
 
-        private RootJCDecauxItem findStationMoreClosed(List<RootJCDecauxItem> root, double longitude, double latitude)
+        private RootJCDecauxItem findStationMoreClosed(List<RootJCDecauxItem> root, double longitude, double latitude, Direction direction)
         {
             RootJCDecauxItem myStation = null;
             double distance = 99999999999;
             double res;
 
-            foreach (RootJCDecauxItem rootJC in root)
+            List<RootJCDecauxItem> newFilteredRootList = deletingInvalidStations(direction, root); 
+
+            foreach (RootJCDecauxItem rootJC in newFilteredRootList)
             {
                 if (myStation == null)
                 {
@@ -74,6 +81,43 @@ namespace RoutingServer
                 }
             }
             return myStation;
+        }
+
+        private List<RootJCDecauxItem> deletingInvalidStations(Direction direction, List<RootJCDecauxItem> root)
+        {
+            List<RootJCDecauxItem> newList = new List<RootJCDecauxItem>(root);
+
+            foreach(RootJCDecauxItem rootJC in root)
+            {
+                if (rootJC.status.Equals("OPEN")){
+                    switch (direction)
+                    {
+                        case Direction.Start:
+                            // There is at least one bike left.
+                            if (rootJC.totalStands.availabilities.bikes > 0)
+                            {
+                                newList.Add(rootJC);
+                            }
+                            break;
+
+                        case Direction.End:
+                            // There is at least one place left to park the bike.
+                            if (rootJC.totalStands.availabilities.stands > 0)
+                            {
+                                newList.Add(rootJC);
+                            }
+                            break;
+                    }
+                }
+            }
+
+            return newList;
+        }
+
+        private enum Direction
+        {
+            Start,
+            End
         }
 
         private double distancePythagore(RootJCDecauxItem rootJC, double longitude, double latitude)
