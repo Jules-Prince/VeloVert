@@ -1,5 +1,4 @@
 # Etudiants FISA SI4
-
 * Théophile Yvars<br/>
 * Jules Prince
 
@@ -9,6 +8,7 @@ Nous possédons un serveur (routing server) qui est le point d'entré pour un cl
 Un proxy est mis en place pour mettre en cache les reponses aux requetes faites à JCDecaux. <br/>
 Lors que le client fait une requete, il recoit une string qui comporte un GUID.<br/>
 Ce GUID permet au client de se connecter à activeMQ pour collecter les étapes relatives à sa demande. <br/>
+
 Si il n'y pas de vélo dans la station de départ, alors elle est retiré de la liste des stations potentilles. <br/>
 Si il n'y a pas de place dans la station d'arrivé, alors elle est retiré de la liste des stations potentielles.<br/>
 
