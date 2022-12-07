@@ -19,11 +19,11 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>example</groupId>
-    <artifactId>exo2</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <groupId>yvars.prince</groupId>
+    <artifactId>VeloVert_Client</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
-    <name>example</name>
+    <name>VeloVert</name>
     <description>ActiveMQ Openwire Java Examples</description>
 
     <properties>
@@ -71,11 +71,6 @@
             <groupId>com.github.lbovolini</groupId>
             <artifactId>ObjectMapper</artifactId>
             <version>0.2.3</version>
-        </dependency>
-        <dependency>
-            <groupId>example</groupId>
-            <artifactId>exo2</artifactId>
-            <version>0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.github.fge</groupId>

@@ -18,11 +18,13 @@ namespace RoutingServer
         public Position positionA { set; get; } // Position of the closest station to A
         public Position positionB { set; get; } // Position of the closest station to B
         public string errorMessage { set; get; }
+        public Boolean errorProxy { set; get; }
 
         public JCDecauxProcess()
         {
             this.positionA = new Position();
             this.positionB = new Position();
+            errorProxy = false;
         }
 
         /**
@@ -38,7 +40,11 @@ namespace RoutingServer
             List<RootJCDecauxItem> rootB = buildDeserializedClass(urlAPI, cityB);
 
             // Error management
-            if (rootA.Count == 0 && rootB.Count == 0)
+            if(this.errorProxy){
+                this.errorMessage = "The proxy is not running ... ";
+                return false;
+            }
+            else if (rootA.Count == 0 && rootB.Count == 0)
             {
                 this.errorMessage = "No station in : [ " + cityA + " ] and [ " + cityB + " ]";
                 return false;
@@ -193,6 +199,7 @@ namespace RoutingServer
             }
             catch (Exception ex)
             {
+                errorProxy = true;
                 return new List<RootJCDecauxItem>();
             }
         }

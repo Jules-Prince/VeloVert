@@ -31,12 +31,22 @@ namespace RoutingServer
             Guid guid = Guid.NewGuid(); // Produces a GUID
 
             // Create a Connection Factory.
+
             Uri connecturi = new Uri("activemq:tcp://localhost:61616");
+
             ConnectionFactory connectionFactory = new ConnectionFactory(connecturi);
 
             // Create a single Connection from the Connection Factory.
-            IConnection connection = connectionFactory.CreateConnection();
-            connection.Start();
+            IConnection connection = null;
+            try
+            {
+                connection = connectionFactory.CreateConnection();
+                connection.Start();
+            }catch(Exception ex)
+            {
+                Console.WriteLine("Error : Failed to connect to ActiveMQ");
+                return guid;
+            }
 
             // Create a session from the Connection.
             Apache.NMS.ISession session = connection.CreateSession();
@@ -88,7 +98,6 @@ namespace RoutingServer
             // Create a Connection Factory.
             Uri connecturi = new Uri("activemq:tcp://localhost:61616");
             ConnectionFactory connectionFactory = new ConnectionFactory(connecturi);
-
             // Create a single Connection from the Connection Factory.
             IConnection connection = connectionFactory.CreateConnection();
             connection.Start();

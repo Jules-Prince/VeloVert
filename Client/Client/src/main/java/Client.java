@@ -18,10 +18,10 @@ public class Client implements javax.jms.MessageListener{
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_RED = "\u001B[31m";
 
-    private javax.jms.Connection connect = null;
-    private javax.jms.Session sendSession = null;
-    private javax.jms.Session receiveSession = null;
-    private javax.jms.MessageProducer sender = null;
+    private static javax.jms.Connection connect = null;
+    private static javax.jms.Session sendSession = null;
+    private static javax.jms.Session receiveSession = null;
+    private static javax.jms.MessageProducer sender = null;
     private static InitialContext context = null;
 
     // ================================================
@@ -38,7 +38,13 @@ public class Client implements javax.jms.MessageListener{
     public void factory(String username, String password, String broker) throws JMSException {
         javax.jms.ConnectionFactory factory;
         factory = new ActiveMQConnectionFactory(username, password, broker);
-        connect = factory.createConnection (username, password);
+        try {
+            connect = factory.createConnection (username, password);
+        }catch (Exception e) {
+            System.out.println();
+            System.out.println(ANSI_RED + "Error -------- : ActiveMQ is not working well." + ANSI_RESET);
+            connect = null;
+        }
     }
 
     /**
@@ -87,6 +93,7 @@ public class Client implements javax.jms.MessageListener{
      */
     public static void main(String[] args) throws JMSException {
         Scanner scanner = new Scanner(System.in);
+        boolean routingServeIsOn = false;
 
         title();
 
@@ -94,12 +101,22 @@ public class Client implements javax.jms.MessageListener{
         // [ 1 ] Attempt to connect to our routing server
         // ========================================
         INavigationveloserviceSOAP n = null;
-        try{
-            NavigationveloserviceSOAP navigationveloserviceSOAP = new NavigationveloserviceSOAP();
-            n = navigationveloserviceSOAP.getBasicHttpBindingINavigationveloserviceSOAP();
-        }catch (Exception e){
-            System.out.println(ANSI_RED + "ERROR : Unable to connect to the server" + ANSI_RESET);
-            System.exit(0);
+
+        while(!routingServeIsOn) {
+            try {
+                NavigationveloserviceSOAP navigationveloserviceSOAP = new NavigationveloserviceSOAP();
+                n = navigationveloserviceSOAP.getBasicHttpBindingINavigationveloserviceSOAP();
+                routingServeIsOn = true;
+                System.out.println("[ "+ANSI_GREEN+ "Connected"+ANSI_RESET+" ] to the routing server.");
+            } catch (Exception e) {
+                System.out.println(ANSI_RED + "ERROR : Unable to connect to the server" + ANSI_RESET);
+            }
+
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         // ========================================
@@ -124,9 +141,7 @@ public class Client implements javax.jms.MessageListener{
                 arrivee = scanner.nextLine();
                 System.out.println();
 
-                if(depart.length() == 0 || arrivee.length() == 0){
-                    System.out.println();
-                    System.out.println(ANSI_RED + "Error -------- : empty address. Please try again." + ANSI_RESET);
+                if(isFalseEntries(depart,arrivee)){
                     System.out.println();
                 }else{
                     validAddress = true;
@@ -138,7 +153,13 @@ public class Client implements javax.jms.MessageListener{
             // ========================================
 
             // Recovery of the connection id to AvctiveMQ
-            String myQueue = n.getCheminAVelo(depart, arrivee);
+            String myQueue = "";
+            try {
+                myQueue = n.getCheminAVelo(depart, arrivee);
+            }catch (Exception e){
+                System.out.println("TEST");
+            }
+
 
             System.out.println("myIdQueue : [ "+ ANSI_GREEN + myQueue + ANSI_RESET +" ]");
             System.out.println();
@@ -150,13 +171,14 @@ public class Client implements javax.jms.MessageListener{
             Client client = new Client();
             //1
             client.factory("user", "user", DEFAULT_BROKER_NAME);
-            //2
-            javax.jms.Queue queue = client.queueBuild(myQueue);
-            //3
-            MessageConsumer qReceiver = client.conommateur(queue);
-            //4
-            client.start(qReceiver);
-
+            if(connect != null) { // ActiveMQ must be running
+                //2
+                javax.jms.Queue queue = client.queueBuild(myQueue);
+                //3
+                MessageConsumer qReceiver = client.conommateur(queue);
+                //4
+                client.start(qReceiver);
+            }
             // ========================================
             // [ 6 ] 5 seconds wait with the next request
             // ========================================
@@ -247,6 +269,26 @@ public class Client implements javax.jms.MessageListener{
         {
             rte.printStackTrace();
         }
+    }
+
+    /**
+     * Checks if the strings are good
+     * @param depart
+     * @param arrivee
+     * @return
+     */
+    private static boolean isFalseEntries(String depart, String arrivee){
+        if(depart.length() == 0 || arrivee.length() == 0){
+            System.out.println();
+            System.out.println(ANSI_RED + "Error -------- : empty address. Please try again." + ANSI_RESET);
+            return true;
+        }
+        if(depart.charAt(0) == '.' || depart.charAt(0) == ';'){
+            System.out.println();
+            System.out.println(ANSI_RED + "Error -------- : Character ';' and '.' forbidden first." + ANSI_RESET);
+            return true;
+        }
+        return false;
     }
 
     // ===========================================

@@ -80,7 +80,10 @@ namespace RoutingServer
 
             Console.WriteLine("\n[ 4 ] ActiveMQ");
             guid = activeMQ.producer(positions);
-
+            if(guid == null)
+            {
+                return "0";
+            }
             return guid.ToString();
         }
     }
